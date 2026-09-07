@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cronograma de Física - Acompanhamento</title>
+    <style>
+        :root {
+            --green: #2ecc71;
+            --yellow: #f1c40f;
+            --red: #e74c3c;
+            --dark: #2c3e50;
+            --light: #ecf0f1;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            color: var(--dark);
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 { text-align: center; }
+
+        .auth-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .auth-container input {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .auth-container button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: var(--dark);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .goals {
+            background: #e1f5fe;
+            padding: 15px;
+            border-left: 5px solid #03a9f4;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+
+        .topic-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .topic-card.locked {
+            opacity: 0.5;
+            background-color: var(--light);
+            pointer-events: none;
+        }
+
+        .topic-card.locked::after {
+            content: "🔒 Bloqueado (Marque 'Aprendi' no tópico anterior)";
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-weight: bold;
+            color: #7f8c8d;
+            font-size: 0.85em;
+        }
+
+        .module-title {
+            color: #2980b9;
+            font-size: 0.85em;
+            text-transform: uppercase;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            opacity: 0.4;
+            transition: 0.2s;
+        }
+
+        .btn.active { opacity: 1; transform: scale(1.02); box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        .btn-green { background-color: var(--green); }
+        .btn-yellow { background-color: var(--yellow); }
+        .btn-red { background-color: var(--red); }
+        
+        .read-only .btn { cursor: not-allowed; }
+
+        .progress-bar {
+            background: #ccc;
+            height: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: var(--green);
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Cronograma de Estudos - Física</h1>
+    
+    <div class="auth-container" id="authSection">
+        <h3>Acesso de Edição (Aluno)</h3>
+        <p>Professores acessam esta página apenas para visualização. Para alterar, insira a senha abaixo:</p>
+        <input type="password" id="password" placeholder="Digite a chave do aluno">
+        <button id="loginBtn">Entrar como Aluno</button>
+        <p id="authMessage" style="color: red; margin-top: 10px;"></p>
+    </div>
+
+    <div class="goals">
+        <strong>Meta Semanal:</strong> Completar no mínimo <strong>2 tópicos</strong> por semana (Marcando como "Aprendi").
+        <br>Progresso Geral: <span id="progressText">0%</span>
+    </div>
+
+    <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+    </div>
+
+    <div id="contentList" class="read-only"></div>
+
+    <!-- Script de integração com o Firebase -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+        import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+
+        // Configuração do Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyD5k5q6ZAw6x3XP-Ja_P_ax2YgnjCT_RME",
+            authDomain: "cronograma-fisica.firebaseapp.com",
+            projectId: "cronograma-fisica",
+            storageBucket: "cronograma-fisica.firebasestorage.app",
+            messagingSenderId: "1014294422234",
+            appId: "1:1014294422234:web:434241fbdebc193e80bbe3"
+        };
+
+        // Definir a Senha do Aluno
+        const CHAVE_ALUNO = "aluno123"; 
+
+        // Inicializa o Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        let isAluno = false;
+        let progresso = {};
+
+        const conteudos = [
+            { id: 0, modulo: "3.1. Mecânica I", titulo: "Análise dimensional", desc: "Análise dimensional de grandezas físicas." },
+            { id: 1, modulo: "3.1. Mecânica I", titulo: "Cinemática", desc: "Velocidade e aceleração, Movimento com aceleração constante, Adição de velocidades, Aceleração de Coriolis, Rotação." },
+            { id: 2, modulo: "3.1. Mecânica I", titulo: "Estática", desc: "Centro de massa, Condições de equilíbrio, Forças de atrito, Lei de Hooke, Módulo de Young." },
+            { id: 3, modulo: "3.1. Mecânica I", titulo: "Dinâmica", desc: "Segunda lei de Newton, Energia cinética e potencial, Conservação de momento e energia, Trabalho, Colisões 1D e 2D." },
+            { id: 4, modulo: "3.1. Mecânica I", titulo: "Mecânica celeste", desc: "Lei da gravidade, Leis de Kepler, Energia e momento angular de órbitas." },
+            { id: 5, modulo: "3.1. Mecânica I", titulo: "Hidrodinâmica", desc: "Pressão, flutuabilidade, lei de continuidade, equação de Bernoulli, Tensão superficial." },
+            { id: 6, modulo: "3.2. Termodinâmica e física estatística", titulo: "Termodinâmica clássica", desc: "Equilíbrio térmico, Leis da termodinâmica, Ciclo de Carnot, Transformações gasosas." },
+            { id: 7, modulo: "3.2. Termodinâmica e física estatística", titulo: "Transferência de calor e Transições de fase", desc: "Fusão, ebulição, calor latente, pressão de vapor, condutividade térmica." },
+            { id: 8, modulo: "3.2. Termodinâmica e física estatística", titulo: "Física estatística", desc: "Teoria cinética dos gases, Lei dos gases ideais, Teorema da equipartição." },
+            { id: 9, modulo: "3.3. Ondas e óptica", titulo: "Oscilações harmônicas", desc: "Equação de movimento, Frequência, Ressonância, Oscilações amortecidas." },
+            { id: 10, modulo: "3.3. Ondas e óptica", titulo: "Ondulatória", desc: "Propagação, efeito Doppler, Princípio de Fermat, Lei de Snell, Ondas sonoras." },
+            { id: 11, modulo: "3.3. Ondas e óptica", titulo: "Interferência e difração", desc: "Batimentos, ondas estacionárias, Princípio de Huygens, Difração de fendas." },
+            { id: 12, modulo: "3.3. Ondas e óptica", titulo: "Interação das ondas eletromagnéticas", desc: "Índice de refração, Polarização, Ângulo de Brewster, Lei de Malus." },
+            { id: 13, modulo: "3.3. Ondas e óptica", titulo: "Óptica", desc: "Óptica geométrica, Lentes finas, Telescópios, Microscópios, Iluminância." }
+        ];
+
+        // Autenticação
+        document.getElementById('loginBtn').addEventListener('click', () => {
+            const inputPass = document.getElementById('password').value;
+            if (inputPass === CHAVE_ALUNO) {
+                isAluno = true;
+                document.getElementById('authSection').innerHTML = "<h3 style='color: green;'>✅ Aluno Autenticado! Você pode alterar os status.</h3>";
+                document.getElementById('contentList').classList.remove('read-only');
+                renderizar();
+            } else {
+                document.getElementById('authMessage').innerText = "Senha incorreta!";
+            }
+        });
+
+        // Sincronização em Tempo Real (Escuta alterações no Firebase)
+        onSnapshot(doc(db, "acompanhamento", "aluno_principal"), (docSnap) => {
+            if (docSnap.exists()) {
+                progresso = docSnap.data();
+            } else {
+                progresso = {};
+            }
+            renderizar();
+        });
+
+        // Salvar dados no Firebase
+        async function setStatus(id, status) {
+            if (!isAluno) {
+                alert("Apenas o aluno autenticado pode alterar o status!");
+                return;
+            }
+            progresso[id] = status;
+            await setDoc(doc(db, "acompanhamento", "aluno_principal"), progresso);
+        }
+
+        // Atualização da interface
+        function renderizar() {
+            const container = document.getElementById('contentList');
+            container.innerHTML = '';
+            
+            let bloqueado = false;
+
+            conteudos.forEach((item, index) => {
+                const status = progresso[item.id] || null;
+                
+                if (index > 0 && progresso[conteudos[index - 1].id] !== 'green') {
+                    bloqueado = true;
+                }
+
+                const card = document.createElement('div');
+                card.className = `topic-card ${bloqueado ? 'locked' : ''}`;
+                
+                card.innerHTML = `
+                    <div class="module-title">${item.modulo}</div>
+                    <h2>${item.id + 1}. ${item.titulo}</h2>
+                    <p>${item.desc}</p>
+                    <div class="buttons">
+                        <button class="btn btn-green ${status === 'green' ? 'active' : ''}" id="btn-g-${item.id}">✅ Aprendi</button>
+                        <button class="btn btn-yellow ${status === 'yellow' ? 'active' : ''}" id="btn-y-${item.id}">⚠️ Parcial</button>
+                        <button class="btn btn-red ${status === 'red' ? 'active' : ''}" id="btn-r-${item.id}">❌ Não sei</button>
+                    </div>
+                `;
+                
+                container.appendChild(card);
+
+                document.getElementById(`btn-g-${item.id}`).onclick = () => setStatus(item.id, 'green');
+                document.getElementById(`btn-y-${item.id}`).onclick = () => setStatus(item.id, 'yellow');
+                document.getElementById(`btn-r-${item.id}`).onclick = () => setStatus(item.id, 'red');
+            });
+
+            // Atualiza Barra de Progresso
+            let concluidos = Object.values(progresso).filter(s => s === 'green').length;
+            let pct = Math.round((concluidos / conteudos.length) * 100);
+            document.getElementById('progressFill').style.width = pct + "%";
+            document.getElementById('progressText').innerText = pct + "% (" + concluidos + "/" + conteudos.length + ")";
+        }
+    </script>
+</body>
+</html>

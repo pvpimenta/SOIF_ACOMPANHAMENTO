@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<nav class="main-nav" style="background:#fff; padding:12px 24px; border-radius:16px; border:1px solid #e2e8f0; margin-bottom:20px; display:flex; justify-space-between; align-items:center;">
+    <div style="font-weight:700; font-size:1.1rem; color:#4f46e5;">⚛️ Acompanhamento de Física</div>
+    <div style="display:flex; gap:12px;">
+        <a href="index.html" style="padding:8px 16px; border-radius:10px; text-decoration:none; font-size:0.88rem; font-weight:600; background:#f1f5f9; color:#64748b;">📊 Ficha Geral</a>
+        <a href="agenda.html" style="padding:8px 16px; border-radius:10px; text-decoration:none; font-size:0.88rem; font-weight:600; background:#4f46e5; color:#fff;">📅 Agenda Semanal</a>
+    </div>
+</nav>
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agenda Virtual de Estudos - Física</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --primary-light: #e0e7ff;
+            --bg-body: #f1f5f9;
+            --surface: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+
+            --mecanica-color: #2563eb;
+            --mecanica-bg: #eff6ff;
+            --termo-color: #ea580c;
+            --termo-bg: #fff7ed;
+            --ondas-color: #7c3aed;
+            --ondas-bg: #f5f3ff;
+
+            --green: #10b981;
+            --green-light: #d1fae5;
+            --green-dark: #047857;
+            
+            --yellow: #f59e0b;
+            --yellow-light: #fef3c7;
+            --yellow-dark: #b45309;
+
+            --red: #ef4444;
+            --red-light: #fee2e2;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            padding: 30px 20px;
+            line-height: 1.5;
+        }
+
+        .container { max-width: 1100px; margin: 0 auto; }
+
+        /* Header e Topo */
+        header {
+            background: var(--surface);
+            padding: 24px 30px;
+            border-radius: 20px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            margin-bottom: 25px;
+            border: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .header-title h1 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-title p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: 4px;
+        }
+
+        /* Autenticação */
+        .auth-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #f8fafc;
+            padding: 10px 14px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
+        .auth-box input {
+            padding: 8px 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.85rem;
+            outline: none;
+        }
+
+        .auth-box button {
+            padding: 8px 16px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* Barra de Controle e Ações */
+        .controls-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .week-indicator {
+            background: var(--surface);
+            padding: 10px 18px;
+            border-radius: 12px;
+            font-weight: 600;
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            font-size: 0.95rem;
+        }
+
+        .btn-organize {
+            background: #ffffff;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            padding: 10px 18px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+
+        .btn-organize:hover {
+            background: var(--primary-light);
+        }
+
+        /* CALENDÁRIO / GRID SEMANAL */
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+        }
+
+        .day-card {
+            background: var(--surface);
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.03);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .day-header {
+            padding: 14px 20px;
+            background: #f8fafc;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .day-title {
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--text-main);
+        }
+
+        .day-badge {
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 20px;
+            text-transform: uppercase;
+        }
+
+        /* Tags de Cores dos Módulos */
+        .tag-mecanica { background: var(--mecanica-bg); color: var(--mecanica-color); border: 1px solid #bfdbfe; }
+        .tag-termodinamica { background: var(--termo-bg); color: var(--termo-color); border: 1px solid #fed7aa; }
+        .tag-ondas { background: var(--ondas-bg); color: var(--ondas-color); border: 1px solid #ddd6fe; }
+
+        .day-body {
+            padding: 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .topic-content h3 {
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: var(--text-main);
+        }
+
+        .topic-content p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+        }
+
+        .difficulty-alert {
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 4px 8px;
+            border-radius: 6px;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+        .alert-red { background: var(--red-light); color: var(--red); }
+        .alert-yellow { background: var(--yellow-light); color: var(--yellow-dark); }
+
+        .card-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .btn-check {
+            flex: 1;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid var(--green);
+            background: var(--green-light);
+            color: var(--green-dark);
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: background 0.2s;
+        }
+
+        .btn-check:hover { background: #a7f3d0; }
+
+        .btn-swap {
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: #ffffff;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+
+        .btn-swap:hover { background: #f1f5f9; color: var(--text-main); }
+
+        /* Modal de Personalização */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 25px;
+            border-radius: 16px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .close-modal {
+            background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-muted);
+        }
+
+        .read-only .btn-check, .read-only .btn-swap, .read-only .btn-organize {
+            opacity: 0.6; pointer-events: none;
+        }
+
+        .empty-day {
+            text-align: center; color: var(--green-dark); font-weight: 600; padding: 20px;
+            background: var(--green-light); border-radius: 12px; font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <div class="header-title">
+            <h1>📅 Agenda Virtual de Estudos</h1>
+            <p>Cronograma inteligente: 2 tópicos por conteúdo distribuídos na semana.</p>
+        </div>
+
+        <div class="auth-box" id="authBox">
+            <input type="password" id="studentPassword" placeholder="Senha do aluno">
+            <button id="loginBtn">Desbloquear Edição</button>
+        </div>
+    </header>
+
+    <div class="controls-bar">
+        <div class="week-indicator" id="weekStats">
+            Calculando semanas restantes...
+        </div>
+        <button class="btn-organize" onclick="abrirModalOrganizar()">
+            ⚙️ Personalizar/Reorganizar Semanas
+        </button>
+    </div>
+
+    <!-- CALENDÁRIO SEMANAL -->
+    <div class="calendar-grid read-only" id="calendarGrid"></div>
+</div>
+
+<!-- MODAL DE ORGANIZAÇÃO -->
+<div class="modal-overlay" id="organizeModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Organizar Cronograma</h3>
+            <button class="close-modal" onclick="fecharModalOrganizar()">&times;</button>
+        </div>
+        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:15px;">
+            A ordem padrão respeita os pré-requisitos (2 tópicos por matéria). Se desejar, você pode recalcular a fila ou trocar a distribuição dos dias.
+        </p>
+        <button class="btn-organize" style="width:100%; justify-content:center; margin-bottom:10px;" onclick="resetarAgendaParaPadrao()">
+            🔄 Restaurar Distribuição Automática Padrão
+        </button>
+    </div>
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+    import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyD5k5q6ZAw6x3XP-Ja_P_ax2YgnjCT_RME",
+        authDomain: "cronograma-fisica.firebaseapp.com",
+        databaseURL: "https://cronograma-fisica-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "cronograma-fisica",
+        storageBucket: "cronograma-fisica.firebasestorage.app",
+        messagingSenderId: "1014294422234",
+        appId: "1:1014294422234:web:434241fbdebc193e80bbe3"
+    };
+
+    const CHAVE_ALUNO = "aluno123";
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    let isAluno = false;
+    let progresso = {};
+    let offsetIndex = { m1: 0, m2: 0, m3: 0 }; // Para trocas/pulhas de tópico
+
+    const dadosFisica = [
+        {
+            id: "m1", titulo: "Mecânica I", tagClass: "tag-mecanica",
+            topicos: [
+                { subtopicos: [{ id: "st_1", titulo: "Análise Dimensional", desc: "Grandezas físicas e unidades." }] },
+                { subtopicos: [
+                    { id: "st_2", titulo: "Velocidade e Aceleração Vetorial", desc: "Derivadas do vetor deslocamento." },
+                    { id: "st_3", titulo: "Componentes da Aceleração", desc: "Aceleração centrípeta e tangencial." },
+                    { id: "st_4", titulo: "Movimento com Aceleração Constante", desc: "Partícula puntiforme com aceleração constante." },
+                    { id: "st_5", titulo: "Composição de Movimentos", desc: "Adição de velocidades e velocidades angulares." },
+                    { id: "st_6", titulo: "Aceleração de Coriolis", desc: "Casos em que a aceleração de Coriolis é zero." },
+                    { id: "st_7", titulo: "Cinemática do Corpo Rígido", desc: "Rotação em torno de um centro instantâneo." }
+                ]},
+                { subtopicos: [
+                    { id: "st_8", titulo: "Centro de Massa", desc: "Por soma ou por integração." },
+                    { id: "st_9", titulo: "Condições de Equilíbrio", desc: "Equilíbrio de força e de torque." },
+                    { id: "st_10", titulo: "Forças Mecânicas e Elasticidade", desc: "Atrito, Lei de Hooke e módulo de Young." },
+                    { id: "st_11", titulo: "Estabilidade de Equilíbrio", desc: "Equilíbrios estáveis e instáveis." }
+                ]},
+                { subtopicos: [
+                    { id: "st_12", titulo: "Leis de Newton e Energia", desc: "Segunda lei e energia cinética." },
+                    { id: "st_13", titulo: "Campos de Força", desc: "Energia potencial para campos simples." },
+                    { id: "st_14", titulo: "Leis de Conservação", desc: "Momento linear, angular e energia." },
+                    { id: "st_15", titulo: "Trabalho e Potência", desc: "Trabalho mecânico e dissipação." },
+                    { id: "st_16", titulo: "Referenciais Não Inerciais", desc: "Força inercial, centrífuga." },
+                    { id: "st_17", titulo: "Colisões", desc: "Impulso e colisões 1D e 2D." }
+                ]},
+                { subtopicos: [
+                    { id: "st_18", titulo: "Gravitação", desc: "Lei da gravidade e leis de Kepler." },
+                    { id: "st_19", titulo: "Órbitas", desc: "Energia e momento angular." }
+                ]},
+                { subtopicos: [
+                    { id: "st_20", titulo: "Fluidos em Movimento", desc: "Flutuabilidade e equação de Bernoulli." },
+                    { id: "st_21", titulo: "Fenômenos de Superfície", desc: "Tensão superficial e pressão capilar." }
+                ]}
+            ]
+        },
+        {
+            id: "m2", titulo: "Termodinâmica", tagClass: "tag-termodinamica",
+            topicos: [
+                { subtopicos: [
+                    { id: "st_22", titulo: "Conceitos Fundamentais", desc: "Equilíbrio, entropia e 1ª/2ª Leis." },
+                    { id: "st_23", titulo: "Transformações Gasosas", desc: "Isotérmicos, isobáricos, isocóricos e adiabáticos." },
+                    { id: "st_24", titulo: "Ciclos Térmicos", desc: "Ciclo de Carnot e eficiência." }
+                ]},
+                { subtopicos: [
+                    { id: "st_25", titulo: "Mudanças de Fase", desc: "Calor latente e umidade relativa." },
+                    { id: "st_26", titulo: "Condução Térmica", desc: "Condutividade e fluxo de calor." }
+                ]},
+                { subtopicos: [
+                    { id: "st_27", titulo: "Teoria Cinética", desc: "Fator de Boltzmann e gases ideais." },
+                    { id: "st_28", titulo: "Equipartição de Energia", desc: "Graus de liberdade." }
+                ]}
+            ]
+        },
+        {
+            id: "m3", titulo: "Ondas e Óptica", tagClass: "tag-ondas",
+            topicos: [
+                { subtopicos: [
+                    { id: "st_29", titulo: "MHS", desc: "Equação de movimento e decaimento." },
+                    { id: "st_30", titulo: "Ressonância", desc: "Amplitude e fase em regime permanente." }
+                ]},
+                { subtopicos: [
+                    { id: "st_31", titulo: "Propagação", desc: "Velocidade de fase e Efeito Doppler." },
+                    { id: "st_32", titulo: "Meios e Som", desc: "Lei de Snell e ondas sonoras." }
+                ]},
+                { subtopicos: [
+                    { id: "st_33", titulo: "Superposição", desc: "Batimentos e Princípio de Huygens." },
+                    { id: "st_34", titulo: "Difração", desc: "Difração de 1 e 2 fendas." }
+                ]},
+                { subtopicos: [
+                    { id: "st_35", titulo: "Polarização", desc: "Índice de refração e Lei de Malus." }
+                ]},
+                { subtopicos: [
+                    { id: "st_36", titulo: "Lentes", desc: "Raios, aproximação de lentes finas." },
+                    { id: "st_37", titulo: "Instrumentos", desc: "Telescópios e microscópios." }
+                ]}
+            ]
+        }
+    ];
+
+    // Login
+    document.getElementById('loginBtn').addEventListener('click', () => {
+        const pass = document.getElementById('studentPassword').value;
+        if (pass === CHAVE_ALUNO) {
+            isAluno = true;
+            document.getElementById('authBox').innerHTML = `<span style="color:var(--green-dark); font-weight:bold; font-size:0.85rem;">✓ Modo Aluno (Edição Liberada)</span>`;
+            document.getElementById('calendarGrid').classList.remove('read-only');
+            renderizarAgenda();
+        } else {
+            alert("Senha incorreta!");
+        }
+    });
+
+    // Conexão com Firebase DB
+    onValue(ref(db, 'progresso_v2'), (snapshot) => {
+        progresso = snapshot.val() || {};
+        renderizarAgenda();
+    });
+
+    window.setStatus = async function(stId, status) {
+        if (!isAluno) return;
+        progresso[stId] = status;
+        await set(ref(db, 'progresso_v2'), progresso);
+    };
+
+    window.trocarTopicoModulo = function(modId) {
+        offsetIndex[modId] = (offsetIndex[modId] || 0) + 1;
+        renderizarAgenda();
+    };
+
+    window.abrirModalOrganizar = () => document.getElementById('organizeModal').style.display = 'flex';
+    window.fecharModalOrganizar = () => document.getElementById('organizeModal').style.display = 'none';
+    window.resetarAgendaParaPadrao = () => {
+        offsetIndex = { m1: 0, m2: 0, m3: 0 };
+        fecharModalOrganizar();
+        renderizarAgenda();
+    };
+
+    function obterPendentesPorModulo(modId) {
+        const modulo = dadosFisica.find(m => m.id === modId);
+        let lista = [];
+        modulo.topicos.forEach(t => {
+            t.subtopicos.forEach(st => {
+                if (progresso[st.id] !== 'green') {
+                    lista.push({
+                        ...st,
+                        moduloNome: modulo.titulo,
+                        tagClass: modulo.tagClass,
+                        status: progresso[st.id] || null
+                    });
+                }
+            });
+        });
+        return lista;
+    }
+
+    function renderizarAgenda() {
+        const grid = document.getElementById('calendarGrid');
+        grid.innerHTML = '';
+
+        // Puxa as filas de cada módulo respeitando os pré-requisitos
+        const pMecanica = obterPendentesPorModulo('m1');
+        const pTermo = obterPendentesPorModulo('m2');
+        const pOndas = obterPendentesPorModulo('m3');
+
+        // Seleciona exatamente 2 tópicos por matéria para a semana
+        const offsetM1 = offsetIndex['m1'] || 0;
+        const offsetM2 = offsetIndex['m2'] || 0;
+        const offsetM3 = offsetIndex['m3'] || 0;
+
+        const m1 = [pMecanica[offsetM1], pMecanica[offsetM1 + 1]].filter(Boolean);
+        const m2 = [pTermo[offsetM2], pTermo[offsetM2 + 1]].filter(Boolean);
+        const m3 = [pOndas[offsetM3], pOndas[offsetM3 + 1]].filter(Boolean);
+
+        // Mapeamento dos 6 dias da semana
+        const estruturaSemanal = [
+            { dia: "Segunda-feira", item: m1[0] },
+            { dia: "Terça-feira",   item: m2[0] },
+            { dia: "Quarta-feira",  item: m3[0] },
+            { dia: "Quinta-feira",  item: m1[1] },
+            { dia: "Sexta-feira",   item: m2[1] },
+            { dia: "Sábado",        item: m3[1] }
+        ];
+
+        // Atualização dos dados do topo
+        const totalPendentes = pMecanica.length + pTermo.length + pOndas.length;
+        const semanasRestantes = Math.max(1, Math.ceil((new Date(2026, 11, 31) - new Date()) / (1000 * 60 * 60 * 24 * 7)));
+        document.getElementById('weekStats').innerHTML = `
+            Faltam <strong>${semanasRestantes} semanas</strong> até o fim do ano | Fila total: <strong>${totalPendentes} tópicos</strong>
+        `;
+
+        // Renderiza cada card do dia
+        estruturaSemanal.forEach((slot) => {
+            const card = document.createElement('div');
+            card.className = 'day-card';
+
+            if (!slot.item) {
+                card.innerHTML = `
+                    <div class="day-header"><span class="day-title">${slot.dia}</span></div>
+                    <div class="day-body"><div class="empty-day">🎉 Tudo concluído para este conteúdo!</div></div>
+                `;
+            } else {
+                const item = slot.item;
+                let alerta = '';
+                if (item.status === 'red') alerta = `<div class="difficulty-alert alert-red">⚠️ Marcação anterior: Não sei</div>`;
+                if (item.status === 'yellow') alerta = `<div class="difficulty-alert alert-yellow">🔄 Marcação anterior: Parcial</div>`;
+
+                card.innerHTML = `
+                    <div class="day-header">
+                        <span class="day-title">${slot.dia}</span>
+                        <span class="day-badge ${item.tagClass}">${item.moduloNome}</span>
+                    </div>
+                    <div class="day-body">
+                        <div class="topic-content">
+                            ${alerta}
+                            <h3>${item.titulo}</h3>
+                            <p>${item.desc}</p>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn-check" onclick="setStatus('${item.id}', 'green')">
+                                ✓ Concluir
+                            </button>
+                            <button class="btn-swap" title="Trocar por outro tópico deste módulo" onclick="trocarTopicoModulo('${item.id.startsWith('st_1') || item.id.startsWith('st_2') || item.id.startsWith('st_3') || item.id.startsWith('st_4') || item.id.startsWith('st_5') || item.id.startsWith('st_6') || item.id.startsWith('st_7') || item.id.startsWith('st_8') || item.id.startsWith('st_9') || item.id.startsWith('st_10') || item.id.startsWith('st_11') || item.id.startsWith('st_12') || item.id.startsWith('st_13') || item.id.startsWith('st_14') || item.id.startsWith('st_15') || item.id.startsWith('st_16') || item.id.startsWith('st_17') || item.id.startsWith('st_18') || item.id.startsWith('st_19') || item.id.startsWith('st_20') || item.id.startsWith('st_21') ? 'm1' : item.id.startsWith('st_22') || item.id.startsWith('st_23') || item.id.startsWith('st_24') || item.id.startsWith('st_25') || item.id.startsWith('st_26') || item.id.startsWith('st_27') || item.id.startsWith('st_28') ? 'm2' : 'm3'}')">
+                                🔀
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+            grid.appendChild(card);
+        });
+    }
+</script>
+
+</body>
+</html>

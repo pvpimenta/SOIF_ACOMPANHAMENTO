@@ -1,36 +1,27 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<nav class="main-nav" style="background:#fff; padding:12px 24px; border-radius:16px; border:1px solid #e2e8f0; margin-bottom:20px; display:flex; justify-space-between; align-items:center;">
-    <div style="font-weight:700; font-size:1.1rem; color:#4f46e5;">⚛️ Acompanhamento de Física</div>
-    <div style="display:flex; gap:12px;">
-        <a href="index.html" style="padding:8px 16px; border-radius:10px; text-decoration:none; font-size:0.88rem; font-weight:600; background:#f1f5f9; color:#64748b;">📊 Ficha Geral</a>
-        <a href="agenda.html" style="padding:8px 16px; border-radius:10px; text-decoration:none; font-size:0.88rem; font-weight:600; background:#4f46e5; color:#fff;">📅 Agenda Semanal</a>
-    </div>
-</nav>
-
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agenda Virtual de Estudos - Física</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Minha Agenda de Física</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #4f46e5;
             --primary-hover: #4338ca;
             --primary-light: #e0e7ff;
-            --bg-body: #f1f5f9;
+            --bg-body: #f8fafc;
             --surface: #ffffff;
             --text-main: #0f172a;
             --text-muted: #64748b;
             --border: #e2e8f0;
 
-            --mecanica-color: #2563eb;
-            --mecanica-bg: #eff6ff;
-            --termo-color: #ea580c;
-            --termo-bg: #fff7ed;
-            --ondas-color: #7c3aed;
-            --ondas-bg: #f5f3ff;
+            --mecanica-color: #1d4ed8;
+            --mecanica-bg: #dbeafe;
+            --termo-color: #c2410c;
+            --termo-bg: #ffedd5;
+            --ondas-color: #6d28d9;
+            --ondas-bg: #ede9fe;
 
             --green: #10b981;
             --green-light: #d1fae5;
@@ -48,22 +39,73 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background-color: var(--bg-body);
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
             color: var(--text-main);
-            padding: 30px 20px;
-            line-height: 1.5;
+            padding: 20px;
+            line-height: 1.6;
+            min-height: 100vh;
         }
 
         .container { max-width: 1100px; margin: 0 auto; }
 
+        /* Navegação */
+        .main-nav {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 16px 24px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+        }
+
+        .main-nav .logo {
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 12px;
+        }
+
+        .nav-links a {
+            padding: 8px 18px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .nav-links a.secondary {
+            background: #f1f5f9;
+            color: var(--text-muted);
+        }
+        .nav-links a.secondary:hover { background: #e2e8f0; color: var(--text-main); }
+        
+        .nav-links a.primary {
+            background: var(--primary);
+            color: #fff;
+            box-shadow: 0 2px 4px rgba(79, 70, 229, 0.2);
+        }
+        .nav-links a.primary:hover { background: var(--primary-hover); transform: translateY(-1px); }
+
         /* Header e Topo */
         header {
             background: var(--surface);
-            padding: 24px 30px;
-            border-radius: 20px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-            margin-bottom: 25px;
-            border: 1px solid var(--border);
+            padding: 32px;
+            border-radius: 24px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+            border: 1px solid rgba(226, 232, 240, 0.8);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -72,75 +114,86 @@
         }
 
         .header-title h1 {
-            font-size: 1.6rem;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            font-size: 1.8rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: var(--text-main);
         }
 
         .header-title p {
             color: var(--text-muted);
-            font-size: 0.9rem;
-            margin-top: 4px;
+            font-size: 0.95rem;
+            margin-top: 6px;
         }
 
         /* Autenticação */
         .auth-box {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             background: #f8fafc;
-            padding: 10px 14px;
-            border-radius: 12px;
+            padding: 8px 8px 8px 16px;
+            border-radius: 100px;
             border: 1px solid var(--border);
         }
 
         .auth-box input {
-            padding: 8px 12px;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            font-size: 0.85rem;
+            border: none;
+            background: transparent;
+            font-size: 0.9rem;
             outline: none;
+            width: 130px;
+            color: var(--text-main);
         }
 
         .auth-box button {
             padding: 8px 16px;
-            background: var(--primary);
+            background: var(--text-main);
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 100px;
             font-size: 0.85rem;
             font-weight: 600;
             cursor: pointer;
+            transition: background 0.2s;
+        }
+        .auth-box button:hover { background: #334155; }
+
+        .auth-success {
+            color: var(--green-dark);
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
         }
 
-        /* Barra de Controle e Ações */
+        /* Barra de Controle */
         .controls-bar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
             flex-wrap: wrap;
             gap: 15px;
         }
 
         .week-indicator {
-            background: var(--surface);
-            padding: 10px 18px;
-            border-radius: 12px;
-            font-weight: 600;
-            border: 1px solid var(--border);
-            color: var(--text-main);
+            color: var(--text-muted);
             font-size: 0.95rem;
         }
 
+        .week-indicator strong {
+            color: var(--text-main);
+        }
+
         .btn-organize {
-            background: #ffffff;
-            border: 1px solid var(--primary);
-            color: var(--primary);
-            padding: 10px 18px;
-            border-radius: 12px;
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            padding: 10px 20px;
+            border-radius: 100px;
             font-weight: 600;
             font-size: 0.9rem;
             cursor: pointer;
@@ -151,29 +204,36 @@
         }
 
         .btn-organize:hover {
-            background: var(--primary-light);
+            background: var(--surface);
+            color: var(--text-main);
+            border-color: #cbd5e1;
         }
 
         /* CALENDÁRIO / GRID SEMANAL */
         .calendar-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 20px;
+            gap: 24px;
         }
 
         .day-card {
             background: var(--surface);
-            border-radius: 16px;
+            border-radius: 20px;
             border: 1px solid var(--border);
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.03);
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);
             overflow: hidden;
             display: flex;
             flex-direction: column;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .day-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 20px -5px rgba(0,0,0,0.08);
         }
 
         .day-header {
-            padding: 14px 20px;
-            background: #f8fafc;
+            padding: 18px 24px;
             border-bottom: 1px solid var(--border);
             display: flex;
             justify-content: space-between;
@@ -182,98 +242,127 @@
 
         .day-title {
             font-weight: 700;
-            font-size: 1rem;
+            font-size: 1.05rem;
             color: var(--text-main);
         }
 
         .day-badge {
             font-size: 0.75rem;
             font-weight: 700;
-            padding: 3px 10px;
-            border-radius: 20px;
-            text-transform: uppercase;
+            padding: 4px 12px;
+            border-radius: 100px;
+            letter-spacing: 0.5px;
         }
 
         /* Tags de Cores dos Módulos */
-        .tag-mecanica { background: var(--mecanica-bg); color: var(--mecanica-color); border: 1px solid #bfdbfe; }
-        .tag-termodinamica { background: var(--termo-bg); color: var(--termo-color); border: 1px solid #fed7aa; }
-        .tag-ondas { background: var(--ondas-bg); color: var(--ondas-color); border: 1px solid #ddd6fe; }
+        .tag-mecanica { background: var(--mecanica-bg); color: var(--mecanica-color); }
+        .tag-termodinamica { background: var(--termo-bg); color: var(--termo-color); }
+        .tag-ondas { background: var(--ondas-bg); color: var(--ondas-color); }
 
         .day-body {
-            padding: 20px;
+            padding: 24px;
             flex: 1;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            gap: 15px;
+            gap: 20px;
         }
 
         .topic-content h3 {
-            font-size: 1.05rem;
-            font-weight: 600;
-            margin-bottom: 6px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 8px;
             color: var(--text-main);
+            line-height: 1.3;
         }
 
         .topic-content p {
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             color: var(--text-muted);
             margin-bottom: 12px;
         }
 
         .difficulty-alert {
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             font-weight: 600;
-            padding: 4px 8px;
-            border-radius: 6px;
-            display: inline-block;
-            margin-bottom: 10px;
+            padding: 6px 12px;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 12px;
         }
         .alert-red { background: var(--red-light); color: var(--red); }
         .alert-yellow { background: var(--yellow-light); color: var(--yellow-dark); }
 
         .card-actions {
             display: flex;
-            gap: 8px;
-            margin-top: 10px;
+            gap: 10px;
+            margin-top: auto;
         }
 
         .btn-check {
             flex: 1;
-            padding: 10px;
-            border-radius: 8px;
-            border: 1px solid var(--green);
+            padding: 12px;
+            border-radius: 12px;
+            border: none;
             background: var(--green-light);
             color: var(--green-dark);
-            font-weight: 600;
-            font-size: 0.85rem;
+            font-weight: 700;
+            font-size: 0.9rem;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 6px;
-            transition: background 0.2s;
+            gap: 8px;
+            transition: all 0.2s;
         }
 
-        .btn-check:hover { background: #a7f3d0; }
+        .btn-check:hover { 
+            background: #a7f3d0; 
+            transform: scale(1.02);
+        }
+
+        /* Grupo das setas de navegação */
+        .btn-nav-group {
+            display: flex;
+            gap: 6px;
+        }
 
         .btn-swap {
-            padding: 10px;
-            border-radius: 8px;
+            padding: 12px;
+            width: 40px;
+            height: 44px;
+            border-radius: 12px;
             border: 1px solid var(--border);
             background: #ffffff;
             color: var(--text-muted);
             cursor: pointer;
-            font-size: 0.85rem;
+            font-size: 1.1rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
         }
 
-        .btn-swap:hover { background: #f1f5f9; color: var(--text-main); }
+        .btn-swap:hover:not(:disabled) { 
+            background: #f1f5f9; 
+            color: var(--text-main); 
+            border-color: #cbd5e1;
+        }
+
+        .btn-swap:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
 
         /* Modal de Personalização */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5);
+            background: rgba(15, 23, 42, 0.4);
+            backdrop-filter: blur(4px);
             display: none;
             justify-content: center;
             align-items: center;
@@ -282,56 +371,89 @@
 
         .modal-content {
             background: white;
-            padding: 25px;
-            border-radius: 16px;
-            max-width: 500px;
+            padding: 32px;
+            border-radius: 24px;
+            max-width: 480px;
             width: 90%;
-            max-height: 80vh;
-            overflow-y: auto;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
         }
 
         .modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .modal-header h3 {
+            font-size: 1.3rem;
+            font-weight: 800;
         }
 
         .close-modal {
-            background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-muted);
+            background: #f1f5f9; 
+            border: none; 
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            font-size: 1.2rem; 
+            cursor: pointer; 
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
         }
+        .close-modal:hover { background: #e2e8f0; color: var(--text-main); }
 
         .read-only .btn-check, .read-only .btn-swap, .read-only .btn-organize {
-            opacity: 0.6; pointer-events: none;
+            opacity: 0.5; pointer-events: none; filter: grayscale(100%);
         }
 
         .empty-day {
-            text-align: center; color: var(--green-dark); font-weight: 600; padding: 20px;
-            background: var(--green-light); border-radius: 12px; font-size: 0.9rem;
+            text-align: center; 
+            color: var(--green-dark); 
+            font-weight: 600; 
+            padding: 30px 20px;
+            background: var(--green-light); 
+            border-radius: 16px; 
+            font-size: 0.95rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            border: 1px dashed rgba(4, 120, 87, 0.2);
         }
     </style>
 </head>
 <body>
 
 <div class="container">
+    <nav class="main-nav">
+        <div class="logo">⚛️ Física Pro</div>
+        <div class="nav-links">
+            <a href="index.html" class="secondary">Ficha Geral</a>
+            <a href="agenda.html" class="primary">Sua Agenda</a>
+        </div>
+    </nav>
+
     <header>
         <div class="header-title">
-            <h1>📅 Agenda Virtual de Estudos</h1>
-            <p>Cronograma inteligente: 2 tópicos por conteúdo distribuídos na semana.</p>
+            <h1>Sua Rota da Semana</h1>
+            <p>Organizamos os próximos passos para você focar apenas em estudar.</p>
         </div>
 
         <div class="auth-box" id="authBox">
-            <input type="password" id="studentPassword" placeholder="Senha do aluno">
-            <button id="loginBtn">Desbloquear Edição</button>
+            <input type="password" id="studentPassword" placeholder="Senha de acesso">
+            <button id="loginBtn">Desbloquear</button>
         </div>
     </header>
 
     <div class="controls-bar">
         <div class="week-indicator" id="weekStats">
-            Calculando semanas restantes...
+            Calculando o seu progresso...
         </div>
         <button class="btn-organize" onclick="abrirModalOrganizar()">
-            ⚙️ Personalizar/Reorganizar Semanas
+            ⚙️ Ajustar Cronograma
         </button>
     </div>
 
@@ -343,14 +465,14 @@
 <div class="modal-overlay" id="organizeModal">
     <div class="modal-content">
         <div class="modal-header">
-            <h3>Organizar Cronograma</h3>
+            <h3>Ajustar Cronograma</h3>
             <button class="close-modal" onclick="fecharModalOrganizar()">&times;</button>
         </div>
-        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:15px;">
-            A ordem padrão respeita os pré-requisitos (2 tópicos por matéria). Se desejar, você pode recalcular a fila ou trocar a distribuição dos dias.
+        <p style="font-size:0.95rem; color:var(--text-muted); margin-bottom:24px; line-height:1.5;">
+            A agenda distribui automaticamente 2 tópicos de cada matéria por semana respeitando os pré-requisitos. Você pode redefinir essa distribuição caso tenha feito trocas manuais.
         </p>
-        <button class="btn-organize" style="width:100%; justify-content:center; margin-bottom:10px;" onclick="resetarAgendaParaPadrao()">
-            🔄 Restaurar Distribuição Automática Padrão
+        <button class="btn-organize" style="width:100%; justify-content:center; padding:14px; background:#f8fafc;" onclick="resetarAgendaParaPadrao()">
+            🔄 Restaurar Ordem Padrão
         </button>
     </div>
 </div>
@@ -375,7 +497,7 @@
 
     let isAluno = false;
     let progresso = {};
-    let offsetIndex = { m1: 0, m2: 0, m3: 0 }; // Para trocas/pulhas de tópico
+    let offsetIndex = { m1: 0, m2: 0, m3: 0 }; 
 
     const dadosFisica = [
         {
@@ -463,15 +585,20 @@
         const pass = document.getElementById('studentPassword').value;
         if (pass === CHAVE_ALUNO) {
             isAluno = true;
-            document.getElementById('authBox').innerHTML = `<span style="color:var(--green-dark); font-weight:bold; font-size:0.85rem;">✓ Modo Aluno (Edição Liberada)</span>`;
+            document.getElementById('authBox').className = "auth-success";
+            document.getElementById('authBox').innerHTML = `🔓 Edição liberada!`;
             document.getElementById('calendarGrid').classList.remove('read-only');
             renderizarAgenda();
         } else {
-            alert("Senha incorreta!");
+            alert("Ops! Senha incorreta. Tente novamente.");
         }
     });
 
-    // Conexão com Firebase DB
+    document.getElementById('studentPassword').addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') document.getElementById('loginBtn').click();
+    });
+
+    // Conexão Firebase
     onValue(ref(db, 'progresso_v2'), (snapshot) => {
         progresso = snapshot.val() || {};
         renderizarAgenda();
@@ -483,8 +610,15 @@
         await set(ref(db, 'progresso_v2'), progresso);
     };
 
-    window.trocarTopicoModulo = function(modId) {
-        offsetIndex[modId] = (offsetIndex[modId] || 0) + 1;
+    // Função de Navegação (Avançar / Voltar)
+    window.navegarTopicoModulo = function(modId, delta, totalPendentes) {
+        const atual = offsetIndex[modId] || 0;
+        let novoOffset = atual + delta;
+
+        if (novoOffset < 0) novoOffset = 0;
+        if (novoOffset >= totalPendentes) novoOffset = totalPendentes - 1;
+
+        offsetIndex[modId] = novoOffset;
         renderizarAgenda();
     };
 
@@ -504,6 +638,7 @@
                 if (progresso[st.id] !== 'green') {
                     lista.push({
                         ...st,
+                        moduloId: modulo.id,
                         moduloNome: modulo.titulo,
                         tagClass: modulo.tagClass,
                         status: progresso[st.id] || null
@@ -518,12 +653,10 @@
         const grid = document.getElementById('calendarGrid');
         grid.innerHTML = '';
 
-        // Puxa as filas de cada módulo respeitando os pré-requisitos
         const pMecanica = obterPendentesPorModulo('m1');
         const pTermo = obterPendentesPorModulo('m2');
         const pOndas = obterPendentesPorModulo('m3');
 
-        // Seleciona exatamente 2 tópicos por matéria para a semana
         const offsetM1 = offsetIndex['m1'] || 0;
         const offsetM2 = offsetIndex['m2'] || 0;
         const offsetM3 = offsetIndex['m3'] || 0;
@@ -532,7 +665,6 @@
         const m2 = [pTermo[offsetM2], pTermo[offsetM2 + 1]].filter(Boolean);
         const m3 = [pOndas[offsetM3], pOndas[offsetM3 + 1]].filter(Boolean);
 
-        // Mapeamento dos 6 dias da semana
         const estruturaSemanal = [
             { dia: "Segunda-feira", item: m1[0] },
             { dia: "Terça-feira",   item: m2[0] },
@@ -542,14 +674,14 @@
             { dia: "Sábado",        item: m3[1] }
         ];
 
-        // Atualização dos dados do topo
         const totalPendentes = pMecanica.length + pTermo.length + pOndas.length;
         const semanasRestantes = Math.max(1, Math.ceil((new Date(2026, 11, 31) - new Date()) / (1000 * 60 * 60 * 24 * 7)));
+        
         document.getElementById('weekStats').innerHTML = `
-            Faltam <strong>${semanasRestantes} semanas</strong> até o fim do ano | Fila total: <strong>${totalPendentes} tópicos</strong>
+            Você tem <strong>${totalPendentes} tópicos</strong> pela frente. 
+            Faltam cerca de <strong>${semanasRestantes} semanas</strong> até o fim do ano. Vai dar certo! 🚀
         `;
 
-        // Renderiza cada card do dia
         estruturaSemanal.forEach((slot) => {
             const card = document.createElement('div');
             card.className = 'day-card';
@@ -557,13 +689,25 @@
             if (!slot.item) {
                 card.innerHTML = `
                     <div class="day-header"><span class="day-title">${slot.dia}</span></div>
-                    <div class="day-body"><div class="empty-day">🎉 Tudo concluído para este conteúdo!</div></div>
+                    <div class="day-body" style="justify-content: center;">
+                        <div class="empty-day">
+                            <span style="font-size: 1.5rem;">🎉</span>
+                            Tudo concluído para esta matéria. Você arrasou!
+                        </div>
+                    </div>
                 `;
             } else {
                 const item = slot.item;
+                const modId = item.moduloId;
+                const pendentesCount = modId === 'm1' ? pMecanica.length : (modId === 'm2' ? pTermo.length : pOndas.length);
+                const currentOffset = offsetIndex[modId] || 0;
+
+                const canGoBack = currentOffset > 0;
+                const canGoForward = currentOffset < pendentesCount - 1;
+
                 let alerta = '';
-                if (item.status === 'red') alerta = `<div class="difficulty-alert alert-red">⚠️ Marcação anterior: Não sei</div>`;
-                if (item.status === 'yellow') alerta = `<div class="difficulty-alert alert-yellow">🔄 Marcação anterior: Parcial</div>`;
+                if (item.status === 'red') alerta = `<div class="difficulty-alert alert-red">⚠️ Marcado com dificuldade</div>`;
+                if (item.status === 'yellow') alerta = `<div class="difficulty-alert alert-yellow">🔄 Estudo parcial</div>`;
 
                 card.innerHTML = `
                     <div class="day-header">
@@ -580,9 +724,14 @@
                             <button class="btn-check" onclick="setStatus('${item.id}', 'green')">
                                 ✓ Concluir
                             </button>
-                            <button class="btn-swap" title="Trocar por outro tópico deste módulo" onclick="trocarTopicoModulo('${item.id.startsWith('st_1') || item.id.startsWith('st_2') || item.id.startsWith('st_3') || item.id.startsWith('st_4') || item.id.startsWith('st_5') || item.id.startsWith('st_6') || item.id.startsWith('st_7') || item.id.startsWith('st_8') || item.id.startsWith('st_9') || item.id.startsWith('st_10') || item.id.startsWith('st_11') || item.id.startsWith('st_12') || item.id.startsWith('st_13') || item.id.startsWith('st_14') || item.id.startsWith('st_15') || item.id.startsWith('st_16') || item.id.startsWith('st_17') || item.id.startsWith('st_18') || item.id.startsWith('st_19') || item.id.startsWith('st_20') || item.id.startsWith('st_21') ? 'm1' : item.id.startsWith('st_22') || item.id.startsWith('st_23') || item.id.startsWith('st_24') || item.id.startsWith('st_25') || item.id.startsWith('st_26') || item.id.startsWith('st_27') || item.id.startsWith('st_28') ? 'm2' : 'm3'}')">
-                                🔀
-                            </button>
+                            <div class="btn-nav-group">
+                                <button class="btn-swap" title="Tópico anterior" ${!canGoBack ? 'disabled' : ''} onclick="navegarTopicoModulo('${modId}', -1, ${pendentesCount})">
+                                    ←
+                                </button>
+                                <button class="btn-swap" title="Próximo tópico" ${!canGoForward ? 'disabled' : ''} onclick="navegarTopicoModulo('${modId}', 1, ${pendentesCount})">
+                                    →
+                                </button>
+                            </div>
                         </div>
                     </div>
                 `;

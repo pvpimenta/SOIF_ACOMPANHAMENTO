@@ -3,833 +3,749 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simulado SAEB - SEDUC CE | Banca FUNECE</title>
+    <title>Plataforma de Acompanhamento - Física</title>
+    <!-- Fonte Inter para visual moderno -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #1e3a8a;
-            --primary-dark: #0f172a;
-            --accent: #2563eb;
-            --bg: #f8fafc;
-            --card-bg: #ffffff;
-            --text-main: #1e293b;
-            --text-muted: #64748b;
-            --correct-bg: #d1fae5;
-            --correct-border: #10b981;
-            --correct-text: #065f46;
-            --incorrect-bg: #fee2e2;
-            --incorrect-border: #ef4444;
-            --incorrect-text: #991b1b;
-            --border-color: #e2e8f0;
+            /* Paleta de Cores Moderna */
+            --primary: #4f46e5; /* Indigo moderno */
+            --primary-hover: #4338ca;
+            --primary-light: #e0e7ff;
+            --bg-body: #f3f4f6; /* Fundo mais suave */
+            --surface: #ffffff;
+            --text-main: #111827;
+            --text-muted: #6b7280;
+            --border: #e5e7eb;
+            
+            --green: #10b981;
+            --green-light: #d1fae5;
+            --green-dark: #047857;
+            
+            --yellow: #f59e0b;
+            --yellow-light: #fef3c7;
+            --yellow-dark: #b45309;
+            
+            --red: #ef4444;
+            --red-light: #fee2e2;
+            --red-dark: #b91c1c;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         }
 
         body {
-            background-color: var(--bg);
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-body);
             color: var(--text-main);
-            padding-bottom: 60px;
+            padding: 40px 20px;
             line-height: 1.6;
         }
 
-        /* Painel Superior Fixo */
-        .top-bar {
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            background-color: var(--primary-dark);
-            color: #ffffff;
-            padding: 12px 20px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Header e Dashboard */
+        header {
+            background: var(--surface);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            margin-bottom: 30px;
+            border: 1px solid var(--border);
+        }
+
+        .header-title {
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 15px;
+            margin-bottom: 25px;
         }
 
-        .top-bar .info-container {
-            display: flex;
-            gap: 20px;
+        h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-main);
+            letter-spacing: -0.02em;
+        }
+
+        .role-badge {
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-flex;
             align-items: center;
+            gap: 8px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        .role-badge.teacher {
+            background-color: #f1f5f9;
+            color: #475569;
+            border: 1px solid #e2e8f0;
+        }
+
+        .role-badge.student {
+            background-color: var(--primary-light);
+            color: var(--primary);
+            border: 1px solid #c7d2fe;
+        }
+
+        /* Autenticação */
+        .auth-box {
+            background: #f8fafc;
+            padding: 16px 20px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+            border: 1px solid var(--border);
+        }
+
+        .auth-box input {
+            padding: 12px 16px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            outline: none;
+            flex: 1;
+            min-width: 250px;
+            transition: border-color 0.2s;
+        }
+        
+        .auth-box input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+
+        .auth-box button {
+            padding: 12px 24px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
             font-size: 0.95rem;
             font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 4px rgba(79, 70, 229, 0.2);
         }
 
-        .badge {
-            background-color: var(--accent);
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 0.85rem;
-            color: #ffffff;
+        .auth-box button:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-1px);
         }
 
-        .progress-wrapper {
-            width: 100%;
-            max-width: 250px;
-            background-color: #334155;
-            height: 8px;
-            border-radius: 4px;
+        /* Barra de Progresso Geral */
+        .global-progress {
+            margin-top: 10px;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--text-main);
+        }
+
+        .progress-track {
+            height: 10px;
+            background-color: var(--border);
+            border-radius: 10px;
             overflow: hidden;
         }
 
         .progress-fill {
             height: 100%;
+            background: linear-gradient(90deg, #34d399 0%, #10b981 100%);
             width: 0%;
-            background-color: #10b981;
-            transition: width 0.3s ease;
-        }
-
-        /* Container Principal */
-        .container {
-            max-width: 860px;
-            margin: 30px auto;
-            padding: 0 15px;
-        }
-
-        .header-card {
-            background-color: var(--card-bg);
             border-radius: 10px;
+            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Módulos (Cards Principais) */
+        .module-card {
+            background: var(--surface);
+            border-radius: 16px;
+            border: none;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        }
+
+        .module-header {
             padding: 24px;
-            margin-bottom: 25px;
-            border-left: 6px solid var(--accent);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        }
-
-        .header-card h1 {
-            font-size: 1.5rem;
-            color: var(--primary);
-            margin-bottom: 6px;
-        }
-
-        .header-card p {
-            font-size: 0.95rem;
-            color: var(--text-muted);
-        }
-
-        /* Estilo da Questão */
-        .question-card {
-            background-color: var(--card-bg);
-            border-radius: 10px;
-            padding: 24px;
-            margin-bottom: 25px;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-        }
-
-        .question-header {
+            background: var(--surface);
+            border-radius: 16px;
+            cursor: pointer;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 16px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .question-title {
-            font-size: 1.05rem;
-            font-weight: 700;
-            color: var(--primary);
-        }
-
-        .question-statement {
-            font-size: 1rem;
-            color: var(--text-main);
-            margin-bottom: 20px;
-            text-align: justify;
-        }
-
-        .question-statement p {
-            margin-bottom: 10px;
-        }
-
-        /* Alternativas */
-        .options-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .opcao {
-            display: flex;
-            align-items: flex-start;
-            padding: 14px 16px;
-            border: 2px solid var(--border-color);
-            border-radius: 8px;
-            cursor: pointer;
-            background-color: #ffffff;
-            transition: all 0.2s ease;
             user-select: none;
+            border-bottom: 1px solid transparent;
+            transition: background 0.2s;
+            flex-wrap: wrap;
+            gap: 16px;
         }
 
-        .opcao:hover:not(.desabilitada) {
-            border-color: var(--accent);
-            background-color: #eff6ff;
+        .module-header:hover {
+            background: #f8fafc;
         }
 
-        .opcao-letra {
+        .module-card.open .module-header {
+            border-bottom-color: var(--border);
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
+        .module-header h2 {
+            font-size: 1.25rem;
             font-weight: 700;
-            margin-right: 12px;
-            padding: 2px 8px;
-            background-color: #f1f5f9;
-            border-radius: 4px;
-            color: var(--primary-dark);
-            min-width: 28px;
-            text-align: center;
+            color: var(--text-main);
         }
 
-        .opcao-texto {
-            font-size: 0.95rem;
-            flex: 1;
-        }
-
-        /* Classes de Resposta Ativas pelo JS */
-        .opcao.correta {
-            background-color: var(--correct-bg) !important;
-            border-color: var(--correct-border) !important;
-            color: var(--correct-text) !important;
-            font-weight: 600;
-        }
-
-        .opcao.correta .opcao-letra {
-            background-color: var(--correct-border);
-            color: #ffffff;
-        }
-
-        .opcao.incorreta {
-            background-color: var(--incorrect-bg) !important;
-            border-color: var(--incorrect-border) !important;
-            color: var(--incorrect-text) !important;
-        }
-
-        .opcao.incorreta .opcao-letra {
-            background-color: var(--incorrect-border);
-            color: #ffffff;
-        }
-
-        .opcao.desabilitada {
-            pointer-events: none;
-            opacity: 0.9;
-        }
-
-        /* Comentário do Professor */
-        .comentario-box {
-            display: none;
-            margin-top: 20px;
-            padding: 16px;
-            background-color: #f0f9ff;
-            border-left: 4px solid var(--accent);
-            border-radius: 4px;
-            font-size: 0.92rem;
-            color: #0c4a6e;
-        }
-
-        .comentario-box h4 {
-            font-size: 0.95rem;
-            color: var(--primary);
-            margin-bottom: 6px;
+        /* Barra de Progresso Exclusiva do Módulo */
+        .module-progress-wrapper {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 12px;
+            min-width: 220px;
         }
 
-        /* Modal de Conclusão */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(15, 23, 42, 0.75);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 2000;
-            padding: 20px;
-        }
-
-        .modal-content {
-            background-color: #ffffff;
-            padding: 32px;
-            border-radius: 12px;
-            max-width: 500px;
-            width: 100%;
-            text-align: center;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-        }
-
-        .modal-content h2 {
-            color: var(--primary);
-            margin-bottom: 12px;
-        }
-
-        .stat-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin: 20px 0;
-        }
-
-        .stat-card {
-            background-color: var(--bg);
-            padding: 15px;
+        .module-progress-track {
+            flex: 1;
+            height: 8px;
+            background-color: var(--border);
             border-radius: 8px;
-            border: 1px solid var(--border-color);
+            overflow: hidden;
         }
 
-        .stat-card span {
-            display: block;
+        .module-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #6366f1 0%, #4f46e5 100%);
+            width: 0%;
+            border-radius: 8px;
+            transition: width 0.5s ease;
+        }
+
+        .module-progress-text {
             font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-
-        .stat-card strong {
-            font-size: 1.4rem;
-            color: var(--primary);
-        }
-
-        .modal-eval {
-            font-size: 0.95rem;
-            margin-bottom: 20px;
-            color: var(--text-main);
-            padding: 10px;
-            background-color: #f1f5f9;
-            border-radius: 6px;
-        }
-
-        .btn-restart {
-            background-color: var(--accent);
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            font-size: 1rem;
             font-weight: 600;
-            border-radius: 6px;
+            color: var(--text-muted);
+            white-space: nowrap;
+        }
+
+        .topic-list {
+            display: none;
+            padding: 20px;
+            background: #fafafa;
+            border-bottom-left-radius: 16px;
+            border-bottom-right-radius: 16px;
+        }
+
+        .module-card.open .topic-list {
+            display: block;
+        }
+
+        /* Janela de Tópico (Nível 2) */
+        .topic-item {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            margin-bottom: 16px;
+            overflow: hidden;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+            transition: all 0.2s;
+        }
+        
+        .topic-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .topic-header {
+            padding: 16px 20px;
             cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            font-size: 1.05rem;
             transition: background 0.2s;
         }
 
-        .btn-restart:hover {
-            background-color: var(--primary);
+        .topic-header:hover {
+            background: #f8fafc;
+        }
+
+        .topic-title-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .topic-number {
+            background: var(--primary-light);
+            color: var(--primary);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .subtopic-list {
+            display: none;
+            padding: 20px;
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+        }
+
+        .topic-item.open .subtopic-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        /* Cards de Subtópicos (Nível 3) */
+        .subtopic-card {
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: #fdfdfd;
+            transition: all 0.2s;
+        }
+        
+        .subtopic-card:hover {
+            border-color: #cbd5e1;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        }
+
+        .subtopic-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 8px;
+        }
+
+        .subtopic-desc {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+        }
+
+        /* Botões de Ação */
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn-status {
+            flex: 1;
+            min-width: 120px;
+            padding: 10px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: white;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            color: var(--text-muted);
+            transition: all 0.2s ease;
+        }
+
+        .read-only .btn-status {
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .btn-status:not(.active):hover {
+            background: #f8fafc;
+            border-color: #cbd5e1;
+        }
+
+        .btn-green.active { background-color: var(--green-light); border-color: var(--green); color: var(--green-dark); box-shadow: 0 2px 0 var(--green-light);}
+        .btn-yellow.active { background-color: var(--yellow-light); border-color: var(--yellow); color: var(--yellow-dark); box-shadow: 0 2px 0 var(--yellow-light);}
+        .btn-red.active { background-color: var(--red-light); border-color: var(--red); color: var(--red-dark); box-shadow: 0 2px 0 var(--red-light);}
+
+        /* Badges de Status */
+        .status-badge {
+            font-size: 0.75rem;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+        }
+
+        .badge-locked { background: #f1f5f9; color: #64748b; }
+        .badge-progress { background: var(--yellow-light); color: var(--yellow-dark); }
+        .badge-done { background: var(--green-light); color: var(--green-dark); }
+
+        .chevron svg {
+            transition: transform 0.3s ease;
+            color: var(--text-muted);
+        }
+
+        .open > .module-header .chevron svg,
+        .open > .topic-header .chevron svg {
+            transform: rotate(180deg);
         }
     </style>
 </head>
 <body>
 
-    <!-- Painel Fixo Superior -->
-    <div class="top-bar">
-        <div class="info-container">
-            <span class="badge">FUNECE / SEDUC CE</span>
-            <span>Tempo: <strong id="timer-display">00:00</strong></span>
-        </div>
-        <div class="info-container">
-            <span>Respondidas: <strong id="answered-display">0/10</strong></span>
-            <div class="progress-wrapper">
-                <div class="progress-fill" id="progress-bar-fill"></div>
-            </div>
-        </div>
-    </div>
-
-    <div class="container">
-        <!-- Cabeçalho Informativo -->
-        <div class="header-card">
-            <h1>Simulado Interativo: Tudo sobre o SAEB</h1>
-            <p><strong>Cargo:</strong> Professor da Educação Básica | <strong>Banca:</strong> FUNECE/UECE | <strong>Nível:</strong> Médio / Difícil</p>
-        </div>
-
-        <!-- Questão 1 -->
-        <div class="question-card" id="q-1">
-            <div class="question-header">
-                <span class="question-title">Questão 01</span>
-                <span class="badge">Contemplação Múltipla</span>
-            </div>
-            <div class="question-statement">
-                <p>O Sistema de Avaliação da Educação Básica (SAEB) passou por reestruturações conceituais e operacionais promovidas pelo INEP. Analise as seguintes assertivas sobre a configuração atual do SAEB:</p>
-                <p><strong>I.</strong> O SAEB unificou as antigas siglas de exames (como Prova Brasil e ANEB), passando a adotar uma nomenclatura única acompanhada da indicação da etapa escolar e do componente curricular avaliado.</p>
-                <p><strong>II.</strong> As avaliações de Língua Portuguesa e Matemática possuem caráter censitário para as redes públicas nas etapas do 5º e 9º anos do Ensino Fundamental e da 3ª série do Ensino Médio.</p>
-                <p><strong>III.</strong> A avaliação no 2º ano do Ensino Fundamental dedica-se à aferição dos níveis de alfabetização, sendo aplicada de forma censitária nas escolas públicas.</p>
-                <p><strong>IV.</strong> As instituições privadas de ensino básico são compulsoriamente submetidas ao SAEB com os mesmos critérios de obrigatoriedade financeira e operacional aplicados à rede pública.</p>
-                <p>É verdadeiro o que se afirma em:</p>
-            </div>
-            <div class="options-list">
-                <div class="opcao" data-opt="A" onclick="checkAnswer(1, 'A', 'A')">
-                    <span class="opcao-letra">A</span>
-                    <span class="opcao-texto">I, II e III, apenas.</span>
-                </div>
-                <div class="opcao" data-opt="B" onclick="checkAnswer(1, 'B', 'A')">
-                    <span class="opcao-letra">B</span>
-                    <span class="opcao-texto">I e IV, apenas.</span>
-                </div>
-                <div class="opcao" data-opt="C" onclick="checkAnswer(1, 'C', 'A')">
-                    <span class="opcao-letra">C</span>
-                    <span class="opcao-texto">II e IV, apenas.</span>
-                </div>
-                <div class="opcao" data-opt="D" onclick="checkAnswer(1, 'D', 'A')">
-                    <span class="opcao-letra">D</span>
-                    <span class="opcao-texto">I, II, III e IV.</span>
-                </div>
-            </div>
-            <div class="comentario-box" id="comment-1">
-                <h4>💡 Comentário do Professor</h4>
-                <p><strong>Gabarito: A (I, II e III, apenas).</strong><br>
-                <em>Justificativa:</em> As assertivas I, II e III estão corretas. O SAEB unificou as siglas (Portaria MEC nº 458/2020 e atualizações do INEP), tem caráter censitário na rede pública para Língua Portuguesa e Matemática (5º e 9º anos EF, 3ª série EM, além do 2º ano EF em alfabetização). A assertiva IV está incorreta porque a participação das escolas privadas no SAEB ocorre mediante <strong>adesão voluntária</strong>, cumprindo amostragem ou solicitação específica, não sendo compulsória nem idêntica em obrigatoriedade financeira.</p>
+<div class="container">
+    <header>
+        <div class="header-title">
+            <h1>Acompanhamento de Física</h1>
+            <div id="roleBadge" class="role-badge teacher">
+                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                Modo Leitura (Professor)
             </div>
         </div>
 
-        <!-- Questão 2 -->
-        <div class="question-card" id="q-2">
-            <div class="question-header">
-                <span class="question-title">Questão 02</span>
-                <span class="badge">Objetiva Tradicional</span>
-            </div>
-            <div class="question-statement">
-                <p>O Índice de Desenvolvimento da Educação Básica (IDEB) é o principal indicador sintético da qualidade educacional no Brasil. A fórmula de cálculo do IDEB combina dois conceitos estruturais complementares. Assinale a alternativa que identifica corretamente esses dois componentes:</p>
-            </div>
-            <div class="options-list">
-                <div class="opcao" data-opt="A" onclick="checkAnswer(2, 'A', 'B')">
-                    <span class="opcao-letra">A</span>
-                    <span class="opcao-texto">A taxa de evasão escolar apurada pelo SAEB e a nota média de redação obtida pelos estudantes no Exame Nacional do Ensino Médio (ENEM).</span>
-                </div>
-                <div class="opcao" data-opt="B" onclick="checkAnswer(2, 'B', 'B')">
-                    <span class="opcao-letra">B</span>
-                    <span class="opcao-texto"> O desempenho dos estudantes nos testes padronizados de proficiência (SAEB) e o rendimento escolar indicado pelas taxas de aprovação (Censo Escolar).</span>
-                </div>
-                <div class="opcao" data-opt="C" onclick="checkAnswer(2, 'C', 'B')">
-                    <span class="opcao-letra">C</span>
-                    <span class="opcao-texto">O Indicador de Nível Socioeconômico (INSE) da comunidade escolar e a média das notas regimentais atribuídas pelos professores da unidade.</span>
-                </div>
-                <div class="opcao" data-opt="D" onclick="checkAnswer(2, 'D', 'B')">
-                    <span class="opcao-letra">D</span>
-                    <span class="opcao-texto">A carga horária anual presencial cumprida pelas unidades escolares e a taxa de titulação stricto sensu do corpo docente da rede.</span>
-                </div>
-            </div>
-            <div class="comentario-box" id="comment-2">
-                <h4>💡 Comentário do Professor</h4>
-                <p><strong>Gabarito: B.</strong><br>
-                <em>Justificativa:</em> O IDEB é calculado pelo produto entre o indicador de aprendizado (médias de proficiência obtidas pelos alunos nas avaliações do SAEB) e o indicador de fluxo escolar (taxas de aprovação obtidas no Censo Escolar). A opção B sintetiza com exatidão a equação: IDEB = Aprendizado (SAEB) × Fluxo (Censo Escolar).</p>
-            </div>
+        <div class="auth-box" id="authBox">
+            <input type="password" id="studentPassword" placeholder="Digite a chave do aluno para editar">
+            <button id="loginBtn">Desbloquear Edição</button>
+            <span id="authMsg" style="color: var(--red); font-size: 0.85rem; font-weight: 500; width: 100%;"></span>
         </div>
 
-        <!-- Questão 3 -->
-        <div class="question-card" id="q-3">
-            <div class="question-header">
-                <span class="question-title">Questão 03</span>
-                <span class="badge">Contemplação Múltipla</span>
+        <div class="global-progress">
+            <div class="progress-info">
+                <span>Progresso Geral do Cronograma</span>
+                <span id="globalProgressPct">0% (0/0)</span>
             </div>
-            <div class="question-statement">
-                <p>No SAEB, os resultados das avaliações cognitivas são processados por meio da Teoria de Resposta ao Item (TRI). Sobre a aplicação da TRI no SAEB, analise as afirmativas:</p>
-                <p><strong>I.</strong> A TRI possibilita posicionar os estudantes e os itens em uma mesma escala de proficiência, garantindo a comparabilidade dos resultados entre diferentes edições do exame.</p>
-                <p><strong>II.</strong> Na TRI, dois estudantes que acertam a mesma quantidade absoluta de itens em uma prova obrigatoriamente recebem a mesma pontuação final de proficiência.</p>
-                <p><strong>III.</strong> A TRI considera o parâmetro de acerto casual (chute) e a coerência pedagógica do padrão de respostas do examinando ao atribuir o escore final.</p>
-                <p>É verdadeiro o que se afirma em:</p>
-            </div>
-            <div class="options-list">
-                <div class="opcao" data-opt="A" onclick="checkAnswer(3, 'A', 'B')">
-                    <span class="opcao-letra">A</span>
-                    <span class="opcao-texto">I apenas.</span>
-                </div>
-                <div class="opcao" data-opt="B" onclick="checkAnswer(3, 'B', 'B')">
-                    <span class="opcao-letra">B</span>
-                    <span class="opcao-texto">I e III, apenas.</span>
-                </div>
-                <div class="opcao" data-opt="C" onclick="checkAnswer(3, 'C', 'B')">
-                    <span class="opcao-letra">C</span>
-                    <span class="opcao-texto">II e III, apenas.</span>
-                </div>
-                <div class="opcao" data-opt="D" onclick="checkAnswer(3, 'D', 'B')">
-                    <span class="opcao-letra">D</span>
-                    <span class="opcao-texto">I, II e III.</span>
-                </div>
-            </div>
-            <div class="comentario-box" id="comment-3">
-                <h4>💡 Comentário do Professor</h4>
-                <p><strong>Gabarito: B (I e III, apenas).</strong><br>
-                <em>Justificativa:</em> As assertivas I e III expressam os pilares da TRI. Diferente da Teoria Clássica dos Testes (TCT), a TRI avalia o padrão de resposta (dificuldade, discriminação e acerto ao acaso). Portanto, a assertiva II está incorreta: dois estudantes com a mesma quantidade bruta de acertos podem ter proficiências diferentes se um respondeu de forma coerente (acertou fáceis/médias) e o outro de forma incoerente (errou fáceis e acertou difíceis por chute).</p>
+            <div class="progress-track">
+                <div class="progress-fill" id="globalProgressBar"></div>
             </div>
         </div>
+    </header>
 
-        <!-- Questão 4 -->
-        <div class="question-card" id="q-4">
-            <div class="question-header">
-                <span class="question-title">Questão 04</span>
-                <span class="badge">Objetiva Tradicional</span>
-            </div>
-            <div class="question-statement">
-                <p>Além das provas cognitivas de Língua Portuguesa e Matemática, o SAEB utiliza Questionários Contextuais aplicados a estudantes, professores, diretores e secretários de educação. O objetivo primordial da coleta dessas informações contextuais é:</p>
-            </div>
-            <div class="options-list">
-                <div class="opcao" data-opt="A" onclick="checkAnswer(4, 'A', 'C')">
-                    <span class="opcao-letra">A</span>
-                    <span class="opcao-texto">Substituir a nota final de proficiência dos alunos que apresentarem nível socioeconômico muito baixo por uma pontuação compensatória fixa.</span>
-                </div>
-                <div class="opcao" data-opt="B" onclick="checkAnswer(4, 'B', 'C')">
-                    <span class="opcao-letra">B</span>
-                    <span class="opcao-texto">Mapear condutas individuais de docentes para embasamento de processos administrativos disciplinares nas redes estaduais.</span>
-                </div>
-                <div class="opcao" data-opt="C" onclick="checkAnswer(4, 'C', 'C')">
-                    <span class="opcao-letra">C</span>
-                    <span class="opcao-texto">Identificar fatores intra e extraescolares associados ao desempenho acadêmico, tais como nível socioeconômico, infraestrutura e práticas de gestão.</span>
-                </div>
-                <div class="opcao" data-opt="D" onclick="checkAnswer(4, 'D', 'C')">
-                    <span class="opcao-letra">D</span>
-                    <span class="opcao-texto">Isentar redes públicas municipais com baixo orçamento de cumprirem as metas de fluxo estabelecidas no Plano Nacional de Educação.</span>
-                </div>
-            </div>
-            <div class="comentario-box" id="comment-4">
-                <h4>💡 Comentário do Professor</h4>
-                <p><strong>Gabarito: C.</strong><br>
-                <em>Justificativa:</em> Os questionários contextuais do SAEB buscam compreender as condições em que ocorre o processo de ensino-aprendizagem (equidade, infraestrutura, formação docente, clima escolar, perfil socioeconômico). Eles fornecem insumos para explicar disparidades e orientar políticas públicas de redistribuição de recursos, sem viés punitivo ou compensação arbitrária de notas.</p>
-            </div>
-        </div>
+    <div id="modulesContainer" class="read-only"></div>
+</div>
 
-        <!-- Questão 5 -->
-        <div class="question-card" id="q-5">
-            <div class="question-header">
-                <span class="question-title">Questão 05</span>
-                <span class="badge">Contemplação Múltipla</span>
-            </div>
-            <div class="question-statement">
-                <p>Quanto às diretrizes de acessibilidade e participação dos estudantes público-alvo da educação especial (PAEE) na aplicação das provas do SAEB, analise as proposições a seguir:</p>
-                <p><strong>I.</strong> O INEP prevê recursos de acessibilidade, como prova ampliada, superampliada, leitura labial, prova em Braille, auxílio de leitor e transcritor, além do tempo adicional.</p>
-                <p><strong>II.</strong> Os estudantes com deficiência, transtornos globais do desenvolvimento ou altas habilidades/superdotação matriculados nas turmas avaliadas têm garantido o direito de participação no exame.</p>
-                <p><strong>III.</strong> Os resultados individuais e coletivos de estudantes público-alvo da educação especial são sumariamente desconsiderados do sistema para evitar que prejudiquem a média ponderada do município.</p>
-                <p>É verdadeiro o que se afirma em:</p>
-            </div>
-            <div class="options-list">
-                <div class="opcao" data-opt="A" onclick="checkAnswer(5, 'A', 'A')">
-                    <span class="opcao-letra">A</span>
-                    <span class="opcao-texto">I e II, apenas.</span>
-                </div>
-                <div class="opcao" data-opt="B" onclick="checkAnswer(5, 'B', 'A')">
-                    <span class="opcao-letra">B</span>
-                    <span class="opcao-texto">I e III, apenas.</span>
-                </div>
-                <div class="opcao" data-opt="C" onclick="checkAnswer(5, 'C', 'A')">
-                    <span class="opcao-letra">C</span>
-                    <span class="opcao-texto">II e III, apenas.</span>
-                </div>
-                <div class="opcao" data-opt="D" onclick="checkAnswer(5, 'D', 'A')">
-                    <span class="opcao-letra">D</span>
-                    <span class="opcao-texto">I, II e III.</span>
-                </div>
-            </div>
-            <div class="comentario-box" id="comment-5">
-                <h4>💡 Comentário do Professor</h4>
-                <p><strong>Gabarito: A (I e II, apenas).</strong><br>
-                <em>Justificativa:</em> As assertivas I e II fundamentam a política inclusiva do SAEB, assegurando atendimento especializado e adaptações razoáveis. A assertiva III é flagrantemente incorreta e contrária aos preceitos legais e éticos da inclusão educacional, visto que a exclusão dos dados violaria os princípios de equidade e visibilidade estatística desse público.</p>
-            </div>
-        </div>
+<!-- Ícones SVG reutilizáveis -->
+<svg style="display:none;">
+    <defs>
+        <symbol id="icon-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+        </symbol>
+    </defs>
+</svg>
 
-        <!-- Questão 6 -->
-        <div class="question-card" id="q-6">
-            <div class="question-header">
-                <span class="question-title">Questão 06</span>
-                <span class="badge">Objetiva Tradicional</span>
-            </div>
-            <div class="question-statement">
-                <p>Com a promulgação e homologação da Base Nacional Comum Curricular (BNCC), fez-se necessária a adequação das Matrizes de Referência do SAEB. Sobre o alinhamento entre as Matrizes de Referência do SAEB e a BNCC, assinale a afirmativa correta:</p>
-            </div>
-            <div class="options-list">
-                <div class="opcao" data-opt="A" onclick="checkAnswer(6, 'A', 'B')">
-                    <span class="opcao-letra">A</span>
-                    <span class="opcao-texto">A Matriz de Referência do SAEB e a BNCC são documentos equivalentes, significando que o SAEB avalia a totalidade das habilidades e objetos de conhecimento do currículo escolar.</span>
-                </div>
-                <div class="opcao" data-opt="B" onclick="checkAnswer(6, 'B', 'B')">
-                    <span class="opcao-letra">B</span>
-                    <span class="opcao-texto">A Matriz de Referência do SAEB constitui um recorte pedagógico orientado pelas aprendizagens essenciais da BNCC, selecionando competências cognitivas passíveis de mensuração por testes padronizados.</span>
-                </div>
-                <div class="opcao" data-opt="C" onclick="checkAnswer(6, 'C', 'B')">
-                    <span class="opcao-letra">C</span>
-                    <span class="opcao-texto">A BNCC aboliu o uso de matrizes de referência para avaliações em larga escala, determinando que o SAEB utilize testes subjetivos e orais em todas as etapas.</span>
-                </div>
-                <div class="opcao" data-opt="D" onclick="checkAnswer(6, 'D', 'B')">
-                    <span class="opcao-letra">D</span>
-                    <span class="opcao-texto">A Matriz do SAEB sobrepõe-se à BNCC, devendo os professores elaborar os seus planos de aula restritamente com base nos descritores dos testes de edições anteriores.</span>
-                </div>
-            </div>
-            <div class="comentario-box" id="comment-6">
-                <h4>💡 Comentário do Professor</h4>
-                <p><strong>Gabarito: B.</strong><br>
-                <em>Justificativa:</em> Importante distinção conceitual cobrada pela FUNECE: a BNCC é o documento curricular norteador de todo o processo de ensino; já a Matriz de Referência do SAEB é apenas um <strong>recorte</strong> da BNCC focado em habilidades cognitivas cognitivamente aferíveis por itens de múltipla escolha ou resposta curta. Ela não esgota o currículo nem deve restringir a prática pedagógica (evitando o "estreitamento curricular").</p>
-            </div>
-        </div>
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+    import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
 
-        <!-- Questão 7 -->
-        <div class="question-card" id="q-7">
-            <div class="question-header">
-                <span class="question-title">Questão 07</span>
-                <span class="badge">Contemplação Múltipla</span>
-            </div>
-            <div class="question-statement">
-                <p>Considere a abrangência dos componentes curriculares e a amostragem nas edições recentes do SAEB. Analise as assertivas:</p>
-                <p><strong>I.</strong> A avaliação dos componentes de Ciências da Natureza e Ciências Humanas no 9º ano do Ensino Fundamental possui caráter predominantemente amostral.</p>
-                <p><strong>II.</strong> O uso de amostras estatisticamente representativas permite ao INEP diagnosticar o panorama nacional e estadual em áreas do conhecimento não avaliadas censitariamente, otimizando custos e logística.</p>
-                <p><strong>III.</strong> Os resultados das avaliações amostrais de Ciências da Natureza são utilizados para calcular o IDEB de cada unidade escolar da rede municipal isoladamente.</p>
-                <p>É verdadeiro o que se afirma em:</p>
-            </div>
-            <div class="options-list">
-                <div class="opcao" data-opt="A" onclick="checkAnswer(7, 'A', 'A')">
-                    <span class="opcao-letra">A</span>
-                    <span class="opcao-texto">I e II, apenas.</span>
-                </div>
-                <div class="opcao" data-opt="B" onclick="checkAnswer(7, 'B', 'A')">
-                    <span class="opcao-letra">B</span>
-                    <span class="opcao-texto">I e III, apenas.</span>
-                </div>
-                <div class="opcao" data-opt="C" onclick="checkAnswer(7, 'C', 'A')">
-                    <span class="opcao-letra">C</span>
-                    <span class="opcao-texto">II e III, apenas.</span>
-                </div>
-                <div class="opcao" data-opt="D" onclick="checkAnswer(7, 'D', 'A')">
-                    <span class="opcao-letra">D</span>
-                    <span class="opcao-texto">I, II e III.</span>
-                </div>
-            </div>
-            <div class="comentario-box" id="comment-7">
-                <h4>💡 Comentário do Professor</h4>
-                <p><strong>Gabarito: A (I e II, apenas).</strong><br>
-                <em>Justificativa:</em> As afirmativas I e II estão corretas. A avaliação de Ciências da Natureza e Humanas ocorre por amostragem. A afirmativa III está incorreta porque o IDEB de escolas individuais é calculado exclusivamente com base nos testes censitários (Língua Portuguesa e Matemática) somados ao fluxo escolar do Censo Escolar.</p>
-            </div>
-        </div>
+    const firebaseConfig = {
+        apiKey: "AIzaSyD5k5q6ZAw6x3XP-Ja_P_ax2YgnjCT_RME",
+        authDomain: "cronograma-fisica.firebaseapp.com",
+        databaseURL: "https://cronograma-fisica-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "cronograma-fisica",
+        storageBucket: "cronograma-fisica.firebasestorage.app",
+        messagingSenderId: "1014294422234",
+        appId: "1:1014294422234:web:434241fbdebc193e80bbe3"
+    };
 
-        <!-- Questão 8 -->
-        <div class="question-card" id="q-8">
-            <div class="question-header">
-                <span class="question-title">Questão 08</span>
-                <span class="badge">Objetiva Tradicional</span>
-            </div>
-            <div class="question-statement">
-                <p>Na perspectiva da gestão educacional democrática e da práxis docente, os dados analíticos produzidos pelo SAEB devem ser empregados prioritariamente para:</p>
-            </div>
-            <div class="options-list">
-                <div class="opcao" data-opt="A" onclick="checkAnswer(8, 'A', 'C')">
-                    <span class="opcao-letra">A</span>
-                    <span class="opcao-texto">Construir um ranking público e punitivo entre estabelecimentos de ensino, bonificando financeiramente apenas as escolas de turmas homogêneas.</span>
-                </div>
-                <div class="opcao" data-opt="B" onclick="checkAnswer(8, 'B', 'C')">
-                    <span class="opcao-letra">B</span>
-                    <span class="opcao-texto">Substituir as avaliações formativas e somativas elaboradas em sala de aula pelos professores regentes.</span>
-                </div>
-                <div class="opcao" data-opt="C" onclick="checkAnswer(8, 'C', 'C')">
-                    <span class="opcao-letra">C</span>
-                    <span class="opcao-texto">Subsidiar o Projeto Político-Pedagógico (PPP), identificando defasagens de aprendizagem e fundamentando ações de recomposição pedagógica e formação docente.</span>
-                </div>
-                <div class="opcao" data-opt="D" onclick="checkAnswer(8, 'D', 'C')">
-                    <span class="opcao-letra">D</span>
-                    <span class="opcao-texto">Promover a retenção escolar automática dos alunos que se posicionarem nos níveis mais baixos das escalas de proficiência.</span>
-                </div>
-            </div>
-            <div class="comentario-box" id="comment-8">
-                <h4>💡 Comentário do Professor</h4>
-                <p><strong>Gabarito: C.</strong><br>
-                <em>Justificativa:</em> O uso pedagógico da avaliação externa em larga escala (SAEB) deve ter caráter diagnóstico e formativo sistêmico. Os dados devem retroalimentar o planejamento escolar (PPP), reorientar a formação continuada dos professores e balizar intervenções focadas na equidade e recomposição de aprendizagens, rejeitando práticas de ranqueamento punitivo ou retaliação aos estudantes.</p>
-            </div>
-        </div>
+    const CHAVE_ALUNO = "aluno123";
 
-        <!-- Questão 9 -->
-        <div class="question-card" id="q-9">
-            <div class="question-header">
-                <span class="question-title">Questão 09</span>
-                <span class="badge">Contemplação Múltipla</span>
-            </div>
-            <div class="question-statement">
-                <p>Sobre a periodicidade de aplicação e as instâncias administrativas responsáveis pela condução do SAEB, analise as afirmativas a seguir:</p>
-                <p><strong>I.</strong> O SAEB é planejado e gerido pelo Instituto Nacional de Estudos e Pesquisas Educacionais Anísio Teixeira (INEP), autarquia federal vinculada ao Ministério da Educação (MEC).</p>
-                <p><strong>II.</strong> A aplicação do SAEB ocorre com periodicidade bianual (a cada dois anos).</p>
-                <p><strong>III.</strong> As secretarias estaduais e municipais de educação atuam em colaboração logística com o INEP para a operacionalização da aplicação dos testes em seus territórios.</p>
-                <p><strong>IV.</strong> Os resultados do SAEB são divulgados sem qualquer relação com as métricas do Plano Nacional de Educação (PNE), servindo apenas a fins informativos sem impacto em políticas públicas.</p>
-                <p>É verdadeiro o que se afirma em:</p>
-            </div>
-            <div class="options-list">
-                <div class="opcao" data-opt="A" onclick="checkAnswer(9, 'A', 'D')">
-                    <span class="opcao-letra">A</span>
-                    <span class="opcao-texto">I e IV, apenas.</span>
-                </div>
-                <div class="opcao" data-opt="B" onclick="checkAnswer(9, 'B', 'D')">
-                    <span class="opcao-letra">B</span>
-                    <span class="opcao-texto">II e IV, apenas.</span>
-                </div>
-                <div class="opcao" data-opt="C" onclick="checkAnswer(9, 'C', 'D')">
-                    <span class="opcao-letra">C</span>
-                    <span class="opcao-texto">I, II, III e IV.</span>
-                </div>
-                <div class="opcao" data-opt="D" onclick="checkAnswer(9, 'D', 'D')">
-                    <span class="opcao-letra">D</span>
-                    <span class="opcao-texto">I, II e III, apenas.</span>
-                </div>
-            </div>
-            <div class="comentario-box" id="comment-9">
-                <h4>💡 Comentário do Professor</h4>
-                <p><strong>Gabarito: D (I, II e III, apenas).</strong><br>
-                <em>Justificativa:</em> As assertivas I, II e III estão perfeitamente corretas (órgão executor INEP/MEC, periodicidade bienal e regime de colaboração federativa). A assertiva IV está errada porque o SAEB e o IDEB são instrumentos centrais de monitoramento das metas do Plano Nacional de Educação (PNE) - especialmente das Metas 2, 3 e 7 - vinculando-se diretamente ao financiamento e ao redesenho de políticas educacionais.</p>
-            </div>
-        </div>
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
 
-        <!-- Questão 10 -->
-        <div class="question-card" id="q-10">
-            <div class="question-header">
-                <span class="question-title">Questão 10</span>
-                <span class="badge">Objetiva Tradicional</span>
-            </div>
-            <div class="question-statement">
-                <p>No que tange à Avaliação da Alfabetização inserida no escopo do SAEB (aplicada no 2º ano do Ensino Fundamental), assinale a afirmativa tecnicamente correta:</p>
-            </div>
-            <div class="options-list">
-                <div class="opcao" data-opt="A" onclick="checkAnswer(10, 'A', 'A')">
-                    <span class="opcao-letra">A</span>
-                    <span class="opcao-texto">Avalia as competências de leitura, escrita e matemática dos estudantes ao final do 2º ano, em alinhamento com a BNCC, que estabelece o encerramento do processo de alfabetização ao término desta etapa.</span>
-                </div>
-                <div class="opcao" data-opt="B" onclick="checkAnswer(10, 'B', 'A')">
-                    <span class="opcao-letra">B</span>
-                    <span class="opcao-texto">Aplica testes exclusivamente dissertativos e exige a elaboração de uma redação completa de 30 linhas por parte dos alunos de 7 anos.</span>
-                </div>
-                <div class="opcao" data-opt="C" onclick="checkAnswer(10, 'C', 'A')">
-                    <span class="opcao-letra">C</span>
-                    <span class="opcao-texto">Tem o intuito de selecionar os estudantes aptos a ingressar no Ensino Fundamental Anos Finais, reprovando os não alfabetizados.</span>
-                </div>
-                <div class="opcao" data-opt="D" onclick="checkAnswer(10, 'D', 'A')">
-                    <span class="opcao-letra">D</span>
-                    <span class="opcao-texto">Trata-se de exame voluntário aplicado diretamente pelos pais ou responsáveis dos alunos no ambiente domiciliar.</span>
-                </div>
-            </div>
-            <div class="comentario-box" id="comment-10">
-                <h4>💡 Comentário do Professor</h4>
-                <p><strong>Gabarito: A.</strong><br>
-                <em>Justificativa:</em> Conforme a BNCC e as portarias do INEP, o ciclo de alfabetização estipulado abrange o 1º e o 2º ano do Ensino Fundamental. A avaliação do SAEB no 2º ano afere justamente os consolidados da alfabetização (leitura, escrita e raciocínio matemático básico) no tempo certo, de forma diagnóstica e sem caráter de retenção ou seleção (o que invalida as opções B, C e D).</p>
-            </div>
-        </div>
+    let isAluno = false;
+    let progresso = {};
 
-    </div>
-
-    <!-- Modal de Resultados -->
-    <div class="modal-overlay" id="results-modal">
-        <div class="modal-content">
-            <h2>Simulado Concluído!</h2>
-            <p>Confira seu resultado final no simulado sobre o SAEB:</p>
-            
-            <div class="stat-grid">
-                <div class="stat-card">
-                    <span>Acertos</span>
-                    <strong id="modal-score">0 / 10</strong>
-                </div>
-                <div class="stat-card">
-                    <span>Aproveitamento</span>
-                    <strong id="modal-pct">0%</strong>
-                </div>
-                <div class="stat-card">
-                    <span>Tempo Total</span>
-                    <strong id="modal-time">00:00</strong>
-                </div>
-                <div class="stat-card">
-                    <span>Banca</span>
-                    <strong>FUNECE</strong>
-                </div>
-            </div>
-
-            <div class="modal-eval" id="modal-eval">
-                Carregando avaliação...
-            </div>
-
-            <button class="btn-restart" onclick="window.location.reload()">Refazer Simulado</button>
-        </div>
-    </div>
-
-    <script>
-        let secondsElapsed = 0;
-        let timerInterval = null;
-        let answeredQuestions = 0;
-        let correctAnswers = 0;
-        const totalQuestions = 10;
-
-        function startTimer() {
-            timerInterval = setInterval(() => {
-                secondsElapsed++;
-                let mins = Math.floor(secondsElapsed / 60);
-                let secs = secondsElapsed % 60;
-                let formattedTime = 
-                    String(mins).padStart(2, '0') + ':' + String(secs).padStart(2, '0');
-                document.getElementById('timer-display').innerText = formattedTime;
-            }, 1000);
+    const dadosFisica = [
+        {
+            id: "m1",
+            titulo: "3.1. Mecânica I",
+            topicos: [
+                {
+                    id: "m1_t1", titulo: "Análise dimensional",
+                    subtopicos: [
+                        { id: "st_1", titulo: "Análise Dimensional", desc: "Análise dimensional de grandezas físicas e unidades." }
+                    ]
+                },
+                {
+                    id: "m1_t2", titulo: "Cinemática",
+                    subtopicos: [
+                        { id: "st_2", titulo: "Velocidade e Aceleração Vetorial", desc: "Velocidade e aceleração de uma partícula pontual como derivadas do vetor deslocamento." },
+                        { id: "st_3", titulo: "Componentes da Aceleração", desc: "Velocidade linear; aceleração centrípeta e tangencial." },
+                        { id: "st_4", titulo: "Movimento com Aceleração Constante", desc: "Movimento de uma partícula puntiforme com aceleração constante." },
+                        { id: "st_5", titulo: "Composição de Movimentos", desc: "Adição de velocidades e velocidades angulares." },
+                        { id: "st_6", titulo: "Aceleração de Coriolis", desc: "Adição de acelerações sem o termo de Coriolis; reconhecimento dos casos em que a aceleração de Coriolis é zero." },
+                        { id: "st_7", titulo: "Cinemática do Corpo Rígido", desc: "Movimento de um corpo rígido como rotação em torno de um centro instantâneo de rotação; velocidades e acelerações." }
+                    ]
+                },
+                {
+                    id: "m1_t3", titulo: "Estática",
+                    subtopicos: [
+                        { id: "st_8", titulo: "Centro de Massa", desc: "Encontrar o centro de massa de um sistema por soma ou por integração." },
+                        { id: "st_9", titulo: "Condições de Equilíbrio", desc: "Equilíbrio de força (vetorial/componentes) e equilíbrio de torque (geometria 1D e 2D)." },
+                        { id: "st_10", titulo: "Forças Mecânicas e Elasticidade", desc: "Força normal, tensão, atrito estático e cinético; Lei de Hooke, tensão, deformação e módulo de Young." },
+                        { id: "st_11", titulo: "Estabilidade de Equilíbrio", desc: "Equilíbrios estáveis e instáveis." }
+                    ]
+                },
+                {
+                    id: "m1_t4", titulo: "Dinâmica",
+                    subtopicos: [
+                        { id: "st_12", titulo: "Leis de Newton e Energia Cinética", desc: "Segunda lei de Newton e energia cinética para movimentos de translação." },
+                        { id: "st_13", titulo: "Campos de Força e Energia Potencial", desc: "Energia potencial para campos de força simples (integral de linha)." },
+                        { id: "st_14", titulo: "Leis de Conservação", desc: "Momento linear, momento angular, energia e suas leis de conservação." },
+                        { id: "st_15", titulo: "Trabalho, Potência e Dissipação", desc: "Trabalho mecânico e potência; dissipação por atrito." },
+                        { id: "st_16", titulo: "Referenciais Não Inerciais", desc: "Força inercial, força centrífuga, energia potencial em referencial rotativo." },
+                        { id: "st_17", titulo: "Sistemas Variáveis e Colisões", desc: "Sistemas de massa variável. Impulso e colisões 1D e 2D." }
+                    ]
+                },
+                {
+                    id: "m1_t5", titulo: "Mecânica celeste",
+                    subtopicos: [
+                        { id: "st_18", titulo: "Gravitação e Leis de Kepler", desc: "Lei da gravidade, potencial gravitacional e leis de Kepler." },
+                        { id: "st_19", titulo: "Órbitas e Conservação", desc: "Energia e momento angular de massas pontuais de diferentes tipos de órbitas." }
+                    ]
+                },
+                {
+                    id: "m1_t6", titulo: "Hidrodinâmica",
+                    subtopicos: [
+                        { id: "st_20", titulo: "Fluidos em Movimento e Pressão", desc: "Pressão, flutuabilidade, lei da continuidade e equação de Bernoulli." },
+                        { id: "st_21", titulo: "Fenômenos de Superfície", desc: "Tensão superficial, energia associada e pressão capilar." }
+                    ]
+                }
+            ]
+        },
+        {
+            id: "m2",
+            titulo: "3.2. Termodinâmica e física estatística",
+            topicos: [
+                {
+                    id: "m2_t1", titulo: "Termodinâmica clássica",
+                    subtopicos: [
+                        { id: "st_22", titulo: "Conceitos Fundamentais e Leis", desc: "Equilíbrio térmico, processos reversíveis, energia interna, trabalho, calor, entropia e 1ª/2ª Leis." },
+                        { id: "st_23", titulo: "Transformações Gasosas", desc: "Processos isotérmicos, isobáricos, isocóricos, adiabáticos e expansão livre." },
+                        { id: "st_24", titulo: "Ciclos Térmicos e Eficiência", desc: "Ciclo de Carnot (direto/reverso) em gás ideal e eficiência de motores não ideais." }
+                    ]
+                },
+                {
+                    id: "m2_t2", titulo: "Transferência de calor e Transições de fase",
+                    subtopicos: [
+                        { id: "st_25", titulo: "Mudanças de Fase e Umidade", desc: "Transição de fase, calor latente, pressão de vapor saturado, umidade relativa e Lei de Dalton." },
+                        { id: "st_26", titulo: "Condução Térmica", desc: "Conceito de condutividade térmica e continuidade do fluxo de calor." }
+                    ]
+                },
+                {
+                    id: "m2_t3", titulo: "Física estatística",
+                    subtopicos: [
+                        { id: "st_27", titulo: "Teoria Cinética dos Gases", desc: "Número de Avogadro, fator de Boltzmann, constante do gás, pressão e lei dos gases ideais." },
+                        { id: "st_28", titulo: "Equipartição de Energia", desc: "Graus de liberdade, teorema da equipartição, energia interna e velocidade quadrática média." }
+                    ]
+                }
+            ]
+        },
+        {
+            id: "m3",
+            titulo: "3.3. Ondas e óptica",
+            topicos: [
+                {
+                    id: "m3_t1", titulo: "Oscilações harmônicas",
+                    subtopicos: [
+                        { id: "st_29", titulo: "MHS e Amortecimento", desc: "Equação de movimento, frequência, período, equilíbrios instáveis e decaimento exponencial." },
+                        { id: "st_30", titulo: "Oscilações Forçadas e Ressonância", desc: "Ressonância em osciladores senoidais forçados: amplitude e fase em regime permanente." }
+                    ]
+                },
+                {
+                    id: "m3_t2", titulo: "Ondulatória",
+                    subtopicos: [
+                        { id: "st_31", titulo: "Propagação e Efeito Doppler", desc: "Ondas harmônicas, velocidade de fase/grupo, ondas transversais/longitudinais e Efeito Doppler." },
+                        { id: "st_32", titulo: "Meios Não Homogêneos e Som", desc: "Princípio de Fermat, Lei de Snell, ondas sonoras, cone de Mach e fluxo de energia." }
+                    ]
+                },
+                {
+                    id: "m3_t3", titulo: "Interferência e difração",
+                    subtopicos: [
+                        { id: "st_33", titulo: "Superposição de Ondas", desc: "Coerência, batimentos, ondas estacionárias, Princípio de Huygens e filmes finos." },
+                        { id: "st_34", titulo: "Difração e Grade", desc: "Difração de 1 e 2 fendas, rede de difração e reflexão de Bragg." }
+                    ]
+                },
+                {
+                    id: "m3_t4", titulo: "Interação Onda-Matéria",
+                    subtopicos: [
+                        { id: "st_35", titulo: "Óptica Física e Polarização", desc: "Índice de refração, dispersão, polarização linear, ângulo de Brewster e Lei de Malus." }
+                    ]
+                },
+                {
+                    id: "m3_t5", titulo: "Óptica Geométrica e Instrumentos",
+                    subtopicos: [
+                        { id: "st_36", titulo: "Lentes e Iluminação", desc: "Raios, sombras, aproximação de lentes finas, fluxo luminoso e iluminância." },
+                        { id: "st_37", titulo: "Instrumentos Ópticos", desc: "Telescópios e microscópios: ampliação, poder de resolução e interferômetros." }
+                    ]
+                }
+            ]
         }
+    ];
 
-        function checkAnswer(questionNum, selectedOpt, correctOpt) {
-            const card = document.getElementById(`q-${questionNum}`);
-            if (card.classList.contains('respondida')) return;
+    document.getElementById('loginBtn').addEventListener('click', () => {
+        const pass = document.getElementById('studentPassword').value;
+        if (pass === CHAVE_ALUNO) {
+            isAluno = true;
+            document.getElementById('roleBadge').className = "role-badge student";
+            document.getElementById('roleBadge').innerHTML = `<svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg> Modo Edição (Aluno)`;
+            document.getElementById('authBox').style.display = "none";
+            document.getElementById('modulesContainer').classList.remove('read-only');
+            renderizar();
+        } else {
+            document.getElementById('authMsg').innerText = "Chave incorreta! Tente novamente.";
+        }
+    });
 
-            card.classList.add('respondida');
-            answeredQuestions++;
+    onValue(ref(db, 'progresso_v2'), (snapshot) => {
+        progresso = snapshot.val() || {};
+        renderizar();
+    });
 
-            const options = card.querySelectorAll('.opcao');
-            options.forEach(opt => {
-                opt.classList.add('desabilitada');
-                const optVal = opt.getAttribute('data-opt');
-                if (optVal === correctOpt) {
-                    opt.classList.add('correta');
+    window.setStatus = async function(stId, status) {
+        if (!isAluno) {
+            alert("Apenas o aluno autenticado pode alterar o status!");
+            return;
+        }
+        progresso[stId] = status;
+        await set(ref(db, 'progresso_v2'), progresso);
+    };
+
+    window.toggleAccordion = function(elementId) {
+        const el = document.getElementById(elementId);
+        if (el) el.classList.toggle('open');
+    };
+
+    function renderizar() {
+        const container = document.getElementById('modulesContainer');
+        container.innerHTML = '';
+
+        let totalSubtopicosGlobal = 0;
+        let concluidosGlobal = 0;
+
+        dadosFisica.forEach((mod) => {
+            let modConcluidos = 0;
+            let modTotal = 0;
+
+            const modEl = document.createElement('div');
+            modEl.className = 'module-card open'; 
+            modEl.id = mod.id;
+
+            let topicosHTML = '';
+
+            mod.topicos.forEach((top, index) => {
+                let topConcluidos = 0;
+                let topTotal = top.subtopicos.length;
+                let numeroDoTopico = index + 1;
+
+                let subtopicosHTML = '';
+
+                top.subtopicos.forEach((st) => {
+                    modTotal++;
+                    totalSubtopicosGlobal++;
+
+                    const status = progresso[st.id] || null;
+                    if (status === 'green') {
+                        topConcluidos++;
+                        modConcluidos++;
+                        concluidosGlobal++;
+                    }
+
+                    // Acesso liberado sem travas de ordem
+                    subtopicosHTML += `
+                        <div class="subtopic-card">
+                            <div class="subtopic-title">${st.titulo}</div>
+                            <div class="subtopic-desc">${st.desc}</div>
+                            <div class="btn-group">
+                                <button class="btn-status btn-green ${status === 'green' ? 'active' : ''}" onclick="setStatus('${st.id}', 'green')">
+                                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Aprendi
+                                </button>
+                                <button class="btn-status btn-yellow ${status === 'yellow' ? 'active' : ''}" onclick="setStatus('${st.id}', 'yellow')">
+                                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg> Parcial
+                                </button>
+                                <button class="btn-status btn-red ${status === 'red' ? 'active' : ''}" onclick="setStatus('${st.id}', 'red')">
+                                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg> Não sei
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                let badgeClass = "badge-locked";
+                let badgeText = "Pendente";
+                if (topConcluidos === topTotal && topTotal > 0) {
+                    badgeClass = "badge-done";
+                    badgeText = "Concluído";
+                } else if (topConcluidos > 0) {
+                    badgeClass = "badge-progress";
+                    badgeText = `${topConcluidos}/${topTotal}`;
                 }
-                if (optVal === selectedOpt && selectedOpt !== correctOpt) {
-                    opt.classList.add('incorreta');
-                }
+
+                topicosHTML += `
+                    <div class="topic-item open" id="${top.id}">
+                        <div class="topic-header" onclick="toggleAccordion('${top.id}')">
+                            <div class="topic-title-wrapper">
+                                <span class="topic-number">Tópico ${numeroDoTopico}</span>
+                                <span class="topic-name">${top.titulo}</span>
+                            </div>
+                            <div style="display:flex; align-items:center; gap:12px;">
+                                <span class="status-badge ${badgeClass}">${badgeText}</span>
+                                <span class="chevron"><svg width="18" height="18"><use href="#icon-chevron"></use></svg></span>
+                            </div>
+                        </div>
+                        <div class="subtopic-list">
+                            ${subtopicosHTML}
+                        </div>
+                    </div>
+                `;
             });
 
-            if (selectedOpt === correctOpt) {
-                correctAnswers++;
-            }
+            // Porcentagem e Barra de Progresso do Módulo
+            let pctModulo = Math.round((modConcluidos / modTotal) * 100) || 0;
 
-            // Revelar Comentário do Professor
-            const comment = document.getElementById(`comment-${questionNum}`);
-            if (comment) {
-                comment.style.display = 'block';
-            }
+            modEl.innerHTML = `
+                <div class="module-header" onclick="toggleAccordion('${mod.id}')">
+                    <h2>${mod.titulo}</h2>
+                    <div style="display:flex; align-items:center; gap:16px;">
+                        <div class="module-progress-wrapper">
+                            <div class="module-progress-track">
+                                <div class="module-progress-fill" style="width: ${pctModulo}%;"></div>
+                            </div>
+                            <span class="module-progress-text">${pctModulo}% (${modConcluidos}/${modTotal})</span>
+                        </div>
+                        <span class="chevron"><svg width="20" height="20"><use href="#icon-chevron"></use></svg></span>
+                    </div>
+                </div>
+                <div class="topic-list">
+                    ${topicosHTML}
+                </div>
+            `;
 
-            // Atualizar Interface de Progresso
-            document.getElementById('answered-display').innerText = `${answeredQuestions}/${totalQuestions}`;
-            let percentage = (answeredQuestions / totalQuestions) * 100;
-            document.getElementById('progress-bar-fill').style.width = `${percentage}%`;
+            container.appendChild(modEl);
+        });
 
-            // Verificar Encerramento do Simulado
-            if (answeredQuestions === totalQuestions) {
-                finishQuiz();
-            }
-        }
+        // Atualização da Barra do Dashboard Geral
+        let pctGlobal = Math.round((concluidosGlobal / totalSubtopicosGlobal) * 100) || 0;
+        document.getElementById('globalProgressBar').style.width = pctGlobal + '%';
+        document.getElementById('globalProgressPct').innerText = `${pctGlobal}% (${concluidosGlobal}/${totalSubtopicosGlobal})`;
+    }
+</script>
 
-        function finishQuiz() {
-            // Parar o cronômetro imediatamente
-            clearInterval(timerInterval);
-
-            let mins = Math.floor(secondsElapsed / 60);
-            let secs = secondsElapsed % 60;
-            let finalTime = String(mins).padStart(2, '0') + ':' + String(secs).padStart(2, '0');
-
-            let pct = Math.round((correctAnswers / totalQuestions) * 100);
-
-            document.getElementById('modal-score').innerText = `${correctAnswers} / ${totalQuestions}`;
-            document.getElementById('modal-pct').innerText = `${pct}%`;
-            document.getElementById('modal-time').innerText = finalTime;
-
-            let evalText = "";
-            if (pct >= 80) {
-                evalText = "🎯 Excelente desempenho! Domínio avançado sobre as diretrizes do SAEB no padrão FUNECE.";
-            } else if (pct >= 60) {
-                evalText = "👍 Bom resultado! Atente-se às pequenas nuances conceituais nos comentários para consolidar sua aprovação.";
-            } else {
-                evalText = "⚠️ Recomenda-se reforçar a leitura das Portarias do INEP, BNCC e diretrizes das Avaliações em Larga Escala.";
-            }
-            document.getElementById('modal-eval').innerText = evalText;
-
-            // Exibir Modal com pequeno atraso para melhor UX
-            setTimeout(() => {
-                document.getElementById('results-modal').style.display = 'flex';
-            }, 600);
-        }
-
-        // Iniciar Cronômetro no Carregamento da Página
-        window.onload = function() {
-            startTimer();
-        };
-    </script>
 </body>
 </html>

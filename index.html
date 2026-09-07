@@ -155,27 +155,25 @@
 
     <div id="contentList" class="read-only"></div>
 
-    <!-- Script de integração com o Firebase -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
-        import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+        import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
 
-        // Configuração do Firebase
+        // Configuração com a URL do Realtime Database inclusa
         const firebaseConfig = {
             apiKey: "AIzaSyD5k5q6ZAw6x3XP-Ja_P_ax2YgnjCT_RME",
             authDomain: "cronograma-fisica.firebaseapp.com",
+            databaseURL: "https://cronograma-fisica-default-rtdb.asia-southeast1.firebasedatabase.app",
             projectId: "cronograma-fisica",
             storageBucket: "cronograma-fisica.firebasestorage.app",
             messagingSenderId: "1014294422234",
             appId: "1:1014294422234:web:434241fbdebc193e80bbe3"
         };
 
-        // Definir a Senha do Aluno
         const CHAVE_ALUNO = "aluno123"; 
 
-        // Inicializa o Firebase
         const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
+        const db = getDatabase(app);
 
         let isAluno = false;
         let progresso = {};
@@ -210,27 +208,24 @@
             }
         });
 
-        // Sincronização em Tempo Real (Escuta alterações no Firebase)
-        onSnapshot(doc(db, "acompanhamento", "aluno_principal"), (docSnap) => {
-            if (docSnap.exists()) {
-                progresso = docSnap.data();
-            } else {
-                progresso = {};
-            }
+        // Escuta atualizações no Realtime Database
+        const progressoRef = ref(db, 'progresso');
+        onValue(progressoRef, (snapshot) => {
+            progresso = snapshot.val() || {};
             renderizar();
         });
 
-        // Salvar dados no Firebase
+        // Salva dados no Realtime Database
         async function setStatus(id, status) {
             if (!isAluno) {
                 alert("Apenas o aluno autenticado pode alterar o status!");
                 return;
             }
             progresso[id] = status;
-            await setDoc(doc(db, "acompanhamento", "aluno_principal"), progresso);
+            await set(ref(db, 'progresso'), progresso);
         }
 
-        // Atualização da interface
+        // Renderiza a interface
         function renderizar() {
             const container = document.getElementById('contentList');
             container.innerHTML = '';
@@ -265,7 +260,6 @@
                 document.getElementById(`btn-r-${item.id}`).onclick = () => setStatus(item.id, 'red');
             });
 
-            // Atualiza Barra de Progresso
             let concluidos = Object.values(progresso).filter(s => s === 'green').length;
             let pct = Math.round((concluidos / conteudos.length) * 100);
             document.getElementById('progressFill').style.width = pct + "%";

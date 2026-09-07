@@ -657,23 +657,7 @@
         const pTermo = obterPendentesPorModulo('m2');
         const pOndas = obterPendentesPorModulo('m3');
 
-        const offsetM1 = offsetIndex['m1'] || 0;
-        const offsetM2 = offsetIndex['m2'] || 0;
-        const offsetM3 = offsetIndex['m3'] || 0;
-
-        const m1 = [pMecanica[offsetM1], pMecanica[offsetM1 + 1]].filter(Boolean);
-        const m2 = [pTermo[offsetM2], pTermo[offsetM2 + 1]].filter(Boolean);
-        const m3 = [pOndas[offsetM3], pOndas[offsetM3 + 1]].filter(Boolean);
-
-        const estruturaSemanal = [
-            { dia: "Segunda-feira", item: m1[0] },
-            { dia: "Terça-feira",   item: m2[0] },
-            { dia: "Quarta-feira",  item: m3[0] },
-            { dia: "Quinta-feira",  item: m1[1] },
-            { dia: "Sexta-feira",   item: m2[1] },
-            { dia: "Sábado",        item: m3[1] }
-        ];
-
+        
         const totalPendentes = pMecanica.length + pTermo.length + pOndas.length;
         const semanasRestantes = Math.max(1, Math.ceil((new Date(2026, 11, 31) - new Date()) / (1000 * 60 * 60 * 24 * 7)));
         
@@ -681,7 +665,36 @@
             Você tem <strong>${totalPendentes} tópicos</strong> pela frente. 
             Faltam cerca de <strong>${semanasRestantes} semanas</strong> até o fim do ano.
         `;
+        const m1 = [pMecanica[offsetM1], pMecanica[offsetM1 + 1]].filter(Boolean);
+        const m2 = [pTermo[offsetM2], pTermo[offsetM2 + 1]].filter(Boolean);
+        const m3 = [pOndas[offsetM3], pOndas[offsetM3 + 1]].filter(Boolean);
 
+        // Cria uma lista de tópicos que precisam de revisão (amarelos ou vermelhos)
+        const todosPendentes = [...pMecanica, ...pTermo, ...pOndas];
+        const revisoes = todosPendentes.filter(t => t.status === 'red' || t.status === 'yellow');
+        
+        // Evita repetir na revisão um tópico que já está na agenda regular desta semana
+        const naAgendaAtual = [...m1, ...m2, ...m3].map(t => t.id);
+        const revisoesDisponiveis = revisoes.filter(t => !naAgendaAtual.includes(t.id));
+
+        // Função auxiliar para preencher dias vazios com revisões
+        let revIndex = 0;
+        const getItemOuRevisao = (itemNormal) => {
+            if (itemNormal) return itemNormal;
+            if (revIndex < revisoesDisponiveis.length) {
+                return revisoesDisponiveis[revIndex++];
+            }
+            return null; // Retorna nulo se não houver nem matéria normal nem revisão
+        };
+
+        const estruturaSemanal = [
+            { dia: "Segunda-feira", item: getItemOuRevisao(m1[0]) },
+            { dia: "Terça-feira",   item: getItemOuRevisao(m2[0]) },
+            { dia: "Quarta-feira",  item: getItemOuRevisao(m3[0]) },
+            { dia: "Quinta-feira",  item: getItemOuRevisao(m1[1]) },
+            { dia: "Sexta-feira",   item: getItemOuRevisao(m2[1]) },
+            { dia: "Sábado",        item: getItemOuRevisao(m3[1]) }
+        ];
         estruturaSemanal.forEach((slot) => {
             const card = document.createElement('div');
             card.className = 'day-card';

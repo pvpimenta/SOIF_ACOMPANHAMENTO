@@ -657,7 +657,6 @@
         const pTermo = obterPendentesPorModulo('m2');
         const pOndas = obterPendentesPorModulo('m3');
 
-        
         const totalPendentes = pMecanica.length + pTermo.length + pOndas.length;
         const semanasRestantes = Math.max(1, Math.ceil((new Date(2026, 11, 31) - new Date()) / (1000 * 60 * 60 * 24 * 7)));
         
@@ -665,9 +664,15 @@
             Você tem <strong>${totalPendentes} tópicos</strong> pela frente. 
             Faltam cerca de <strong>${semanasRestantes} semanas</strong> até o fim do ano.
         `;
-        const m1 = [pMecanica[offsetM1], pMecanica[offsetM1 + 1]].filter(Boolean);
-        const m2 = [pTermo[offsetM2], pTermo[offsetM2 + 1]].filter(Boolean);
-        const m3 = [pOndas[offsetM3], pOndas[offsetM3 + 1]].filter(Boolean);
+
+        // Pega o índice correto de cada matéria
+        const oM1 = offsetIndex.m1 || 0;
+        const oM2 = offsetIndex.m2 || 0;
+        const oM3 = offsetIndex.m3 || 0;
+
+        const m1 = [pMecanica[oM1], pMecanica[oM1 + 1]].filter(Boolean);
+        const m2 = [pTermo[oM2], pTermo[oM2 + 1]].filter(Boolean);
+        const m3 = [pOndas[oM3], pOndas[oM3 + 1]].filter(Boolean);
 
         // Cria uma lista de tópicos que precisam de revisão (amarelos ou vermelhos)
         const todosPendentes = [...pMecanica, ...pTermo, ...pOndas];
@@ -695,6 +700,7 @@
             { dia: "Sexta-feira",   item: getItemOuRevisao(m2[1]) },
             { dia: "Sábado",        item: getItemOuRevisao(m3[1]) }
         ];
+
         estruturaSemanal.forEach((slot) => {
             const card = document.createElement('div');
             card.className = 'day-card';

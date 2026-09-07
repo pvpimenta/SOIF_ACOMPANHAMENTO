@@ -4,15 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Plataforma de Acompanhamento - Física</title>
-    <!-- Fonte Inter para visual moderno -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* Paleta de Cores Moderna */
-            --primary: #4f46e5; /* Indigo moderno */
+            --primary: #4f46e5;
             --primary-hover: #4338ca;
             --primary-light: #e0e7ff;
-            --bg-body: #f3f4f6; /* Fundo mais suave */
+            --bg-body: #f3f4f6;
             --surface: #ffffff;
             --text-main: #111827;
             --text-muted: #6b7280;
@@ -31,389 +29,167 @@
             --red-dark: #b91c1c;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--bg-body);
             color: var(--text-main);
-            padding: 40px 20px;
+            padding: 20px;
             line-height: 1.6;
         }
 
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
+        .container { max-width: 950px; margin: 0 auto; }
+
+        /* Barra de Navegação Superior */
+        nav.main-nav {
+            background: var(--surface);
+            padding: 12px 24px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+        }
+
+        .nav-brand { font-weight: 700; font-size: 1.1rem; color: var(--primary); }
+
+        .nav-links { display: flex; gap: 12px; }
+
+        .nav-btn {
+            padding: 8px 16px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: 0.88rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .nav-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .nav-btn:not(.active) {
+            background: #f1f5f9;
+            color: var(--text-muted);
+        }
+
+        .nav-btn:not(.active):hover {
+            background: var(--primary-light);
+            color: var(--primary);
         }
 
         /* Header e Dashboard */
         header {
             background: var(--surface);
-            padding: 30px;
+            padding: 28px;
             border-radius: 20px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-            margin-bottom: 30px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            margin-bottom: 24px;
             border: 1px solid var(--border);
         }
 
         .header-title {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-bottom: 25px;
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 15px; margin-bottom: 20px;
         }
 
-        h1 {
-            font-size: 1.75rem;
-            font-weight: 700;
-            color: var(--text-main);
-            letter-spacing: -0.02em;
-        }
+        h1 { font-size: 1.65rem; font-weight: 700; color: var(--text-main); }
 
         .role-badge {
-            padding: 8px 16px;
-            border-radius: 30px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            padding: 8px 16px; border-radius: 30px; font-size: 0.85rem; font-weight: 600;
+            display: inline-flex; align-items: center; gap: 8px;
         }
-
-        .role-badge.teacher {
-            background-color: #f1f5f9;
-            color: #475569;
-            border: 1px solid #e2e8f0;
-        }
-
-        .role-badge.student {
-            background-color: var(--primary-light);
-            color: var(--primary);
-            border: 1px solid #c7d2fe;
-        }
+        .role-badge.teacher { background-color: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; }
+        .role-badge.student { background-color: var(--primary-light); color: var(--primary); border: 1px solid #c7d2fe; }
 
         /* Autenticação */
         .auth-box {
-            background: #f8fafc;
-            padding: 16px 20px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            flex-wrap: wrap;
-            margin-bottom: 25px;
+            background: #f8fafc; padding: 14px 18px; border-radius: 12px;
+            display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 20px;
             border: 1px solid var(--border);
         }
 
         .auth-box input {
-            padding: 12px 16px;
-            border: 1px solid #cbd5e1;
-            border-radius: 8px;
-            font-size: 0.95rem;
-            outline: none;
-            flex: 1;
-            min-width: 250px;
-            transition: border-color 0.2s;
+            padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 8px; flex: 1; min-width: 220px; outline: none;
         }
         
-        .auth-box input:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
-        }
-
         .auth-box button {
-            padding: 12px 24px;
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 0.95rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            box-shadow: 0 2px 4px rgba(79, 70, 229, 0.2);
+            padding: 10px 20px; background-color: var(--primary); color: white; border: none;
+            border-radius: 8px; font-weight: 600; cursor: pointer; transition: background 0.2s;
         }
 
-        .auth-box button:hover {
-            background-color: var(--primary-hover);
-            transform: translateY(-1px);
-        }
+        .auth-box button:hover { background-color: var(--primary-hover); }
 
-        /* Barra de Progresso Geral */
-        .global-progress {
-            margin-top: 10px;
-        }
+        /* Progresso Geral */
+        .progress-info { display: flex; justify-content: space-between; font-weight: 600; margin-bottom: 8px; }
+        .progress-track { height: 10px; background-color: var(--border); border-radius: 10px; overflow: hidden; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #34d399 0%, #10b981 100%); width: 0%; transition: width 0.8s; }
 
-        .progress-info {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.95rem;
-            font-weight: 600;
-            margin-bottom: 10px;
-            color: var(--text-main);
-        }
+        /* Módulos */
+        .module-card { background: var(--surface); border-radius: 16px; margin-bottom: 20px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); }
+        .module-header { padding: 20px 24px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+        .module-card.open .module-header { border-bottom: 1px solid var(--border); }
+        .module-header h2 { font-size: 1.2rem; font-weight: 700; }
 
-        .progress-track {
-            height: 10px;
-            background-color: var(--border);
-            border-radius: 10px;
-            overflow: hidden;
-        }
+        .module-progress-wrapper { display: flex; align-items: center; gap: 12px; min-width: 200px; }
+        .module-progress-track { flex: 1; height: 8px; background-color: var(--border); border-radius: 8px; overflow: hidden; }
+        .module-progress-fill { height: 100%; background: linear-gradient(90deg, #6366f1 0%, #4f46e5 100%); width: 0%; transition: width 0.5s; }
+        .module-progress-text { font-size: 0.85rem; font-weight: 600; color: var(--text-muted); }
 
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #34d399 0%, #10b981 100%);
-            width: 0%;
-            border-radius: 10px;
-            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-        }
+        .topic-list { display: none; padding: 20px; background: #fafafa; border-bottom-left-radius: 16px; border-bottom-right-radius: 16px; }
+        .module-card.open .topic-list { display: block; }
 
-        /* Módulos (Cards Principais) */
-        .module-card {
-            background: var(--surface);
-            border-radius: 16px;
-            border: none;
-            margin-bottom: 24px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-        }
+        .topic-item { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 14px; overflow: hidden; }
+        .topic-header { padding: 14px 18px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 600; }
+        .topic-number { background: var(--primary-light); color: var(--primary); padding: 3px 8px; border-radius: 6px; font-size: 0.75rem; font-weight: 700; margin-right: 10px; }
 
-        .module-header {
-            padding: 24px;
-            background: var(--surface);
-            border-radius: 16px;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            user-select: none;
-            border-bottom: 1px solid transparent;
-            transition: background 0.2s;
-            flex-wrap: wrap;
-            gap: 16px;
-        }
+        .subtopic-list { display: none; padding: 18px; background: var(--surface); border-top: 1px solid var(--border); }
+        .topic-item.open .subtopic-list { display: flex; flex-direction: column; gap: 14px; }
 
-        .module-header:hover {
-            background: #f8fafc;
-        }
+        .subtopic-card { padding: 16px; border-radius: 12px; border: 1px solid var(--border); background: #fdfdfd; }
+        .subtopic-title { font-size: 0.98rem; font-weight: 600; margin-bottom: 6px; }
+        .subtopic-desc { font-size: 0.88rem; color: var(--text-muted); margin-bottom: 14px; }
 
-        .module-card.open .module-header {
-            border-bottom-color: var(--border);
-            border-bottom-left-radius: 0;
-            border-bottom-right-radius: 0;
-        }
-
-        .module-header h2 {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--text-main);
-        }
-
-        /* Barra de Progresso Exclusiva do Módulo */
-        .module-progress-wrapper {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            min-width: 220px;
-        }
-
-        .module-progress-track {
-            flex: 1;
-            height: 8px;
-            background-color: var(--border);
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
-        .module-progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #6366f1 0%, #4f46e5 100%);
-            width: 0%;
-            border-radius: 8px;
-            transition: width 0.5s ease;
-        }
-
-        .module-progress-text {
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--text-muted);
-            white-space: nowrap;
-        }
-
-        .topic-list {
-            display: none;
-            padding: 20px;
-            background: #fafafa;
-            border-bottom-left-radius: 16px;
-            border-bottom-right-radius: 16px;
-        }
-
-        .module-card.open .topic-list {
-            display: block;
-        }
-
-        /* Janela de Tópico (Nível 2) */
-        .topic-item {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            margin-bottom: 16px;
-            overflow: hidden;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
-            transition: all 0.2s;
-        }
-        
-        .topic-item:last-child {
-            margin-bottom: 0;
-        }
-
-        .topic-header {
-            padding: 16px 20px;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-weight: 600;
-            font-size: 1.05rem;
-            transition: background 0.2s;
-        }
-
-        .topic-header:hover {
-            background: #f8fafc;
-        }
-
-        .topic-title-wrapper {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .topic-number {
-            background: var(--primary-light);
-            color: var(--primary);
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .subtopic-list {
-            display: none;
-            padding: 20px;
-            background: var(--surface);
-            border-top: 1px solid var(--border);
-        }
-
-        .topic-item.open .subtopic-list {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        /* Cards de Subtópicos (Nível 3) */
-        .subtopic-card {
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px solid var(--border);
-            background: #fdfdfd;
-            transition: all 0.2s;
-        }
-        
-        .subtopic-card:hover {
-            border-color: #cbd5e1;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
-        }
-
-        .subtopic-title {
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--text-main);
-            margin-bottom: 8px;
-        }
-
-        .subtopic-desc {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            margin-bottom: 16px;
-        }
-
-        /* Botões de Ação */
-        .btn-group {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
+        .btn-group { display: flex; gap: 8px; flex-wrap: wrap; }
         .btn-status {
-            flex: 1;
-            min-width: 120px;
-            padding: 10px;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            background: white;
-            font-size: 0.85rem;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            color: var(--text-muted);
-            transition: all 0.2s ease;
+            flex: 1; min-width: 110px; padding: 8px 12px; border: 1px solid var(--border); border-radius: 8px;
+            background: white; font-size: 0.82rem; font-weight: 600; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; gap: 6px; color: var(--text-muted);
         }
+        
+        .read-only .btn-status { cursor: not-allowed; opacity: 0.6; pointer-events: none; }
+        .btn-green.active { background-color: var(--green-light); border-color: var(--green); color: var(--green-dark); }
+        .btn-yellow.active { background-color: var(--yellow-light); border-color: var(--yellow); color: var(--yellow-dark); }
+        .btn-red.active { background-color: var(--red-light); border-color: var(--red); color: var(--red-dark); }
 
-        .read-only .btn-status {
-            cursor: not-allowed;
-            opacity: 0.6;
-        }
-
-        .btn-status:not(.active):hover {
-            background: #f8fafc;
-            border-color: #cbd5e1;
-        }
-
-        .btn-green.active { background-color: var(--green-light); border-color: var(--green); color: var(--green-dark); box-shadow: 0 2px 0 var(--green-light);}
-        .btn-yellow.active { background-color: var(--yellow-light); border-color: var(--yellow); color: var(--yellow-dark); box-shadow: 0 2px 0 var(--yellow-light);}
-        .btn-red.active { background-color: var(--red-light); border-color: var(--red); color: var(--red-dark); box-shadow: 0 2px 0 var(--red-light);}
-
-        /* Badges de Status */
-        .status-badge {
-            font-size: 0.75rem;
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-weight: 600;
-            letter-spacing: 0.02em;
-        }
-
+        .status-badge { font-size: 0.75rem; padding: 3px 8px; border-radius: 10px; font-weight: 600; }
         .badge-locked { background: #f1f5f9; color: #64748b; }
         .badge-progress { background: var(--yellow-light); color: var(--yellow-dark); }
         .badge-done { background: var(--green-light); color: var(--green-dark); }
 
-        .chevron svg {
-            transition: transform 0.3s ease;
-            color: var(--text-muted);
-        }
-
-        .open > .module-header .chevron svg,
-        .open > .topic-header .chevron svg {
-            transform: rotate(180deg);
-        }
+        .chevron svg { transition: transform 0.3s ease; color: var(--text-muted); }
+        .open > .module-header .chevron svg, .open > .topic-header .chevron svg { transform: rotate(180deg); }
     </style>
 </head>
 <body>
 
 <div class="container">
+    <!-- MENU DE NAVEGAÇÃO -->
+    <nav class="main-nav">
+        <div class="nav-brand">⚛️ Acompanhamento de Física</div>
+        <div class="nav-links">
+            <a href="index.html" class="nav-btn active">📊 Ficha Geral</a>
+            <a href="agenda.html" class="nav-btn">📅 Agenda Semanal</a>
+        </div>
+    </nav>
+
     <header>
         <div class="header-title">
-            <h1>Acompanhamento de Física</h1>
+            <h1>Ficha de Acompanhamento</h1>
             <div id="roleBadge" class="role-badge teacher">
                 <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
                 Modo Leitura (Professor)
@@ -423,7 +199,7 @@
         <div class="auth-box" id="authBox">
             <input type="password" id="studentPassword" placeholder="Digite a chave do aluno para editar">
             <button id="loginBtn">Desbloquear Edição</button>
-            <span id="authMsg" style="color: var(--red); font-size: 0.85rem; font-weight: 500; width: 100%;"></span>
+            <span id="authMsg" style="color: var(--red); font-size: 0.85rem; width: 100%;"></span>
         </div>
 
         <div class="global-progress">
@@ -440,7 +216,6 @@
     <div id="modulesContainer" class="read-only"></div>
 </div>
 
-<!-- Ícones SVG reutilizáveis -->
 <svg style="display:none;">
     <defs>
         <symbol id="icon-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -464,7 +239,6 @@
     };
 
     const CHAVE_ALUNO = "aluno123";
-
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
 
@@ -473,128 +247,81 @@
 
     const dadosFisica = [
         {
-            id: "m1",
-            titulo: "3.1. Mecânica I",
+            id: "m1", titulo: "3.1. Mecânica I",
             topicos: [
-                {
-                    id: "m1_t1", titulo: "Análise dimensional",
-                    subtopicos: [
-                        { id: "st_1", titulo: "Análise Dimensional", desc: "Análise dimensional de grandezas físicas e unidades." }
-                    ]
-                },
-                {
-                    id: "m1_t2", titulo: "Cinemática",
-                    subtopicos: [
-                        { id: "st_2", titulo: "Velocidade e Aceleração Vetorial", desc: "Velocidade e aceleração de uma partícula pontual como derivadas do vetor deslocamento." },
-                        { id: "st_3", titulo: "Componentes da Aceleração", desc: "Velocidade linear; aceleração centrípeta e tangencial." },
-                        { id: "st_4", titulo: "Movimento com Aceleração Constante", desc: "Movimento de uma partícula puntiforme com aceleração constante." },
-                        { id: "st_5", titulo: "Composição de Movimentos", desc: "Adição de velocidades e velocidades angulares." },
-                        { id: "st_6", titulo: "Aceleração de Coriolis", desc: "Adição de acelerações sem o termo de Coriolis; reconhecimento dos casos em que a aceleração de Coriolis é zero." },
-                        { id: "st_7", titulo: "Cinemática do Corpo Rígido", desc: "Movimento de um corpo rígido como rotação em torno de um centro instantâneo de rotação; velocidades e acelerações." }
-                    ]
-                },
-                {
-                    id: "m1_t3", titulo: "Estática",
-                    subtopicos: [
-                        { id: "st_8", titulo: "Centro de Massa", desc: "Encontrar o centro de massa de um sistema por soma ou por integração." },
-                        { id: "st_9", titulo: "Condições de Equilíbrio", desc: "Equilíbrio de força (vetorial/componentes) e equilíbrio de torque (geometria 1D e 2D)." },
-                        { id: "st_10", titulo: "Forças Mecânicas e Elasticidade", desc: "Força normal, tensão, atrito estático e cinético; Lei de Hooke, tensão, deformação e módulo de Young." },
-                        { id: "st_11", titulo: "Estabilidade de Equilíbrio", desc: "Equilíbrios estáveis e instáveis." }
-                    ]
-                },
-                {
-                    id: "m1_t4", titulo: "Dinâmica",
-                    subtopicos: [
-                        { id: "st_12", titulo: "Leis de Newton e Energia Cinética", desc: "Segunda lei de Newton e energia cinética para movimentos de translação." },
-                        { id: "st_13", titulo: "Campos de Força e Energia Potencial", desc: "Energia potencial para campos de força simples (integral de linha)." },
-                        { id: "st_14", titulo: "Leis de Conservação", desc: "Momento linear, momento angular, energia e suas leis de conservação." },
-                        { id: "st_15", titulo: "Trabalho, Potência e Dissipação", desc: "Trabalho mecânico e potência; dissipação por atrito." },
-                        { id: "st_16", titulo: "Referenciais Não Inerciais", desc: "Força inercial, força centrífuga, energia potencial em referencial rotativo." },
-                        { id: "st_17", titulo: "Sistemas Variáveis e Colisões", desc: "Sistemas de massa variável. Impulso e colisões 1D e 2D." }
-                    ]
-                },
-                {
-                    id: "m1_t5", titulo: "Mecânica celeste",
-                    subtopicos: [
-                        { id: "st_18", titulo: "Gravitação e Leis de Kepler", desc: "Lei da gravidade, potencial gravitacional e leis de Kepler." },
-                        { id: "st_19", titulo: "Órbitas e Conservação", desc: "Energia e momento angular de massas pontuais de diferentes tipos de órbitas." }
-                    ]
-                },
-                {
-                    id: "m1_t6", titulo: "Hidrodinâmica",
-                    subtopicos: [
-                        { id: "st_20", titulo: "Fluidos em Movimento e Pressão", desc: "Pressão, flutuabilidade, lei da continuidade e equação de Bernoulli." },
-                        { id: "st_21", titulo: "Fenômenos de Superfície", desc: "Tensão superficial, energia associada e pressão capilar." }
-                    ]
-                }
+                { id: "m1_t1", titulo: "Análise dimensional", subtopicos: [{ id: "st_1", titulo: "Análise Dimensional", desc: "Análise dimensional de grandezas físicas e unidades." }] },
+                { id: "m1_t2", titulo: "Cinemática", subtopicos: [
+                    { id: "st_2", titulo: "Velocidade e Aceleração Vetorial", desc: "Velocidade e aceleração como derivadas do vetor deslocamento." },
+                    { id: "st_3", titulo: "Componentes da Aceleração", desc: "Aceleração centrípeta e tangencial." },
+                    { id: "st_4", titulo: "Movimento com Aceleração Constante", desc: "Partícula puntiforme com aceleração constante." },
+                    { id: "st_5", titulo: "Composição de Movimentos", desc: "Adição de velocidades e velocidades angulares." },
+                    { id: "st_6", titulo: "Aceleração de Coriolis", desc: "Casos em que a aceleração de Coriolis é zero." },
+                    { id: "st_7", titulo: "Cinemática do Corpo Rígido", desc: "Rotação em torno de um centro instantâneo." }
+                ]},
+                { id: "m1_t3", titulo: "Estática", subtopicos: [
+                    { id: "st_8", titulo: "Centro de Massa", desc: "Por soma ou por integração." },
+                    { id: "st_9", titulo: "Condições de Equilíbrio", desc: "Equilíbrio de força e de torque." },
+                    { id: "st_10", titulo: "Forças Mecânicas e Elasticidade", desc: "Atrito, Lei de Hooke e módulo de Young." },
+                    { id: "st_11", titulo: "Estabilidade de Equilíbrio", desc: "Equilíbrios estáveis e instáveis." }
+                ]},
+                { id: "m1_t4", titulo: "Dinâmica", subtopicos: [
+                    { id: "st_12", titulo: "Leis de Newton e Energia", desc: "Segunda lei e energia cinética." },
+                    { id: "st_13", titulo: "Campos de Força", desc: "Energia potencial para campos simples." },
+                    { id: "st_14", titulo: "Leis de Conservação", desc: "Momento linear, angular e energia." },
+                    { id: "st_15", titulo: "Trabalho e Potência", desc: "Trabalho mecânico e dissipação." },
+                    { id: "st_16", titulo: "Referenciais Não Inerciais", desc: "Força inercial, centrífuga." },
+                    { id: "st_17", titulo: "Colisões", desc: "Impulso e colisões 1D e 2D." }
+                ]},
+                { id: "m1_t5", titulo: "Mecânica celeste", subtopicos: [
+                    { id: "st_18", titulo: "Gravitação", desc: "Lei da gravidade e leis de Kepler." },
+                    { id: "st_19", titulo: "Órbitas", desc: "Energia e momento angular." }
+                ]},
+                { id: "m1_t6", titulo: "Hidrodinâmica", subtopicos: [
+                    { id: "st_20", titulo: "Fluidos em Movimento", desc: "Flutuabilidade e equação de Bernoulli." },
+                    { id: "st_21", titulo: "Fenômenos de Superfície", desc: "Tensão superficial e pressão capilar." }
+                ]}
             ]
         },
         {
-            id: "m2",
-            titulo: "3.2. Termodinâmica e física estatística",
+            id: "m2", titulo: "3.2. Termodinâmica e física estatística",
             topicos: [
-                {
-                    id: "m2_t1", titulo: "Termodinâmica clássica",
-                    subtopicos: [
-                        { id: "st_22", titulo: "Conceitos Fundamentais e Leis", desc: "Equilíbrio térmico, processos reversíveis, energia interna, trabalho, calor, entropia e 1ª/2ª Leis." },
-                        { id: "st_23", titulo: "Transformações Gasosas", desc: "Processos isotérmicos, isobáricos, isocóricos, adiabáticos e expansão livre." },
-                        { id: "st_24", titulo: "Ciclos Térmicos e Eficiência", desc: "Ciclo de Carnot (direto/reverso) em gás ideal e eficiência de motores não ideais." }
-                    ]
-                },
-                {
-                    id: "m2_t2", titulo: "Transferência de calor e Transições de fase",
-                    subtopicos: [
-                        { id: "st_25", titulo: "Mudanças de Fase e Umidade", desc: "Transição de fase, calor latente, pressão de vapor saturado, umidade relativa e Lei de Dalton." },
-                        { id: "st_26", titulo: "Condução Térmica", desc: "Conceito de condutividade térmica e continuidade do fluxo de calor." }
-                    ]
-                },
-                {
-                    id: "m2_t3", titulo: "Física estatística",
-                    subtopicos: [
-                        { id: "st_27", titulo: "Teoria Cinética dos Gases", desc: "Número de Avogadro, fator de Boltzmann, constante do gás, pressão e lei dos gases ideais." },
-                        { id: "st_28", titulo: "Equipartição de Energia", desc: "Graus de liberdade, teorema da equipartição, energia interna e velocidade quadrática média." }
-                    ]
-                }
+                { id: "m2_t1", titulo: "Termodinâmica clássica", subtopicos: [
+                    { id: "st_22", titulo: "Conceitos Fundamentais", desc: "Equilíbrio, entropia e 1ª/2ª Leis." },
+                    { id: "st_23", titulo: "Transformações Gasosas", desc: "Isotérmicos, isobáricos, isocóricos e adiabáticos." },
+                    { id: "st_24", titulo: "Ciclos Térmicos", desc: "Ciclo de Carnot e eficiência." }
+                ]},
+                { id: "m2_t2", titulo: "Transferência de calor", subtopicos: [
+                    { id: "st_25", titulo: "Mudanças de Fase", desc: "Calor latente e umidade relativa." },
+                    { id: "st_26", titulo: "Condução Térmica", desc: "Condutividade e fluxo de calor." }
+                ]},
+                { id: "m2_t3", titulo: "Física estatística", subtopicos: [
+                    { id: "st_27", titulo: "Teoria Cinética", desc: "Fator de Boltzmann e gases ideais." },
+                    { id: "st_28", titulo: "Equipartição de Energia", desc: "Graus de liberdade." }
+                ]}
             ]
         },
         {
-            id: "m3",
-            titulo: "3.3. Ondas e óptica",
+            id: "m3", titulo: "3.3. Ondas e óptica",
             topicos: [
-                {
-                    id: "m3_t1", titulo: "Oscilações harmônicas",
-                    subtopicos: [
-                        { id: "st_29", titulo: "MHS e Amortecimento", desc: "Equação de movimento, frequência, período, equilíbrios instáveis e decaimento exponencial." },
-                        { id: "st_30", titulo: "Oscilações Forçadas e Ressonância", desc: "Ressonância em osciladores senoidais forçados: amplitude e fase em regime permanente." }
-                    ]
-                },
-                {
-                    id: "m3_t2", titulo: "Ondulatória",
-                    subtopicos: [
-                        { id: "st_31", titulo: "Propagação e Efeito Doppler", desc: "Ondas harmônicas, velocidade de fase/grupo, ondas transversais/longitudinais e Efeito Doppler." },
-                        { id: "st_32", titulo: "Meios Não Homogêneos e Som", desc: "Princípio de Fermat, Lei de Snell, ondas sonoras, cone de Mach e fluxo de energia." }
-                    ]
-                },
-                {
-                    id: "m3_t3", titulo: "Interferência e difração",
-                    subtopicos: [
-                        { id: "st_33", titulo: "Superposição de Ondas", desc: "Coerência, batimentos, ondas estacionárias, Princípio de Huygens e filmes finos." },
-                        { id: "st_34", titulo: "Difração e Grade", desc: "Difração de 1 e 2 fendas, rede de difração e reflexão de Bragg." }
-                    ]
-                },
-                {
-                    id: "m3_t4", titulo: "Interação Onda-Matéria",
-                    subtopicos: [
-                        { id: "st_35", titulo: "Óptica Física e Polarização", desc: "Índice de refração, dispersão, polarização linear, ângulo de Brewster e Lei de Malus." }
-                    ]
-                },
-                {
-                    id: "m3_t5", titulo: "Óptica Geométrica e Instrumentos",
-                    subtopicos: [
-                        { id: "st_36", titulo: "Lentes e Iluminação", desc: "Raios, sombras, aproximação de lentes finas, fluxo luminoso e iluminância." },
-                        { id: "st_37", titulo: "Instrumentos Ópticos", desc: "Telescópios e microscópios: ampliação, poder de resolução e interferômetros." }
-                    ]
-                }
+                { id: "m3_t1", titulo: "Oscilações harmônicas", subtopicos: [
+                    { id: "st_29", titulo: "MHS", desc: "Equação de movimento e decaimento." },
+                    { id: "st_30", titulo: "Ressonância", desc: "Amplitude e fase em regime permanente." }
+                ]},
+                { id: "m3_t2", titulo: "Ondulatória", subtopicos: [
+                    { id: "st_31", titulo: "Propagação", desc: "Velocidade de fase e Efeito Doppler." },
+                    { id: "st_32", titulo: "Meios e Som", desc: "Lei de Snell e ondas sonoras." }
+                ]},
+                { id: "m3_t3", titulo: "Interferência e difração", subtopicos: [
+                    { id: "st_33", titulo: "Superposição", desc: "Batimentos e Princípio de Huygens." },
+                    { id: "st_34", titulo: "Difração", desc: "Difração de 1 e 2 fendas." }
+                ]},
+                { id: "m3_t4", titulo: "Interação Onda-Matéria", subtopicos: [
+                    { id: "st_35", titulo: "Polarização", desc: "Índice de refração e Lei de Malus." }
+                ]},
+                { id: "m3_t5", titulo: "Óptica Geométrica", subtopicos: [
+                    { id: "st_36", titulo: "Lentes", desc: "Raios, aproximação de lentes finas." },
+                    { id: "st_37", titulo: "Instrumentos", desc: "Telescópios e microscópios." }
+                ]}
             ]
         }
     ];
@@ -609,20 +336,18 @@
             document.getElementById('modulesContainer').classList.remove('read-only');
             renderizar();
         } else {
-            document.getElementById('authMsg').innerText = "Chave incorreta! Tente novamente.";
+            document.getElementById('authMsg').innerText = "Chave incorreta!";
         }
     });
 
+    // Escuta em tempo real no banco
     onValue(ref(db, 'progresso_v2'), (snapshot) => {
         progresso = snapshot.val() || {};
         renderizar();
     });
 
     window.setStatus = async function(stId, status) {
-        if (!isAluno) {
-            alert("Apenas o aluno autenticado pode alterar o status!");
-            return;
-        }
+        if (!isAluno) return;
         progresso[stId] = status;
         await set(ref(db, 'progresso_v2'), progresso);
     };
@@ -652,7 +377,6 @@
             mod.topicos.forEach((top, index) => {
                 let topConcluidos = 0;
                 let topTotal = top.subtopicos.length;
-                let numeroDoTopico = index + 1;
 
                 let subtopicosHTML = '';
 
@@ -667,7 +391,6 @@
                         concluidosGlobal++;
                     }
 
-                    // Acesso liberado sem travas de ordem
                     subtopicosHTML += `
                         <div class="subtopic-card">
                             <div class="subtopic-title">${st.titulo}</div>
@@ -689,34 +412,26 @@
 
                 let badgeClass = "badge-locked";
                 let badgeText = "Pendente";
-                if (topConcluidos === topTotal && topTotal > 0) {
-                    badgeClass = "badge-done";
-                    badgeText = "Concluído";
-                } else if (topConcluidos > 0) {
-                    badgeClass = "badge-progress";
-                    badgeText = `${topConcluidos}/${topTotal}`;
-                }
+                if (topConcluidos === topTotal && topTotal > 0) { badgeClass = "badge-done"; badgeText = "Concluído"; } 
+                else if (topConcluidos > 0) { badgeClass = "badge-progress"; badgeText = `${topConcluidos}/${topTotal}`; }
 
                 topicosHTML += `
                     <div class="topic-item open" id="${top.id}">
                         <div class="topic-header" onclick="toggleAccordion('${top.id}')">
-                            <div class="topic-title-wrapper">
-                                <span class="topic-number">Tópico ${numeroDoTopico}</span>
-                                <span class="topic-name">${top.titulo}</span>
+                            <div style="display:flex; align-items:center;">
+                                <span class="topic-number">Tópico ${index + 1}</span>
+                                <span>${top.titulo}</span>
                             </div>
                             <div style="display:flex; align-items:center; gap:12px;">
                                 <span class="status-badge ${badgeClass}">${badgeText}</span>
                                 <span class="chevron"><svg width="18" height="18"><use href="#icon-chevron"></use></svg></span>
                             </div>
                         </div>
-                        <div class="subtopic-list">
-                            ${subtopicosHTML}
-                        </div>
+                        <div class="subtopic-list">${subtopicosHTML}</div>
                     </div>
                 `;
             });
 
-            // Porcentagem e Barra de Progresso do Módulo
             let pctModulo = Math.round((modConcluidos / modTotal) * 100) || 0;
 
             modEl.innerHTML = `
@@ -732,15 +447,12 @@
                         <span class="chevron"><svg width="20" height="20"><use href="#icon-chevron"></use></svg></span>
                     </div>
                 </div>
-                <div class="topic-list">
-                    ${topicosHTML}
-                </div>
+                <div class="topic-list">${topicosHTML}</div>
             `;
 
             container.appendChild(modEl);
         });
 
-        // Atualização da Barra do Dashboard Geral
         let pctGlobal = Math.round((concluidosGlobal / totalSubtopicosGlobal) * 100) || 0;
         document.getElementById('globalProgressBar').style.width = pctGlobal + '%';
         document.getElementById('globalProgressPct').innerText = `${pctGlobal}% (${concluidosGlobal}/${totalSubtopicosGlobal})`;
